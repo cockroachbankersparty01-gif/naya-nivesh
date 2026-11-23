@@ -32,6 +32,7 @@ a{color:var(--teal)}
 .pulse div{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:10px 12px;backdrop-filter:blur(4px)}
 .pulse b{display:block;background:linear-gradient(90deg,#3df0a0,#3fd6df);-webkit-background-clip:text;background-clip:text;color:transparent;font-size:clamp(20px,3vw,26px);line-height:1.2;white-space:nowrap}.pulse span{font-size:13px;color:#cfe7e8}
 .asof{display:inline-block;margin-top:12px;font-size:13px;color:#cfe7e8}
+.refresh{min-height:36px;padding:6px 14px;border-radius:99px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:14px}
 nav.top{position:sticky;top:0;z-index:20;background:light-dark(rgba(255,255,255,.9),rgba(10,17,19,.9));backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
 nav.top .wrap{display:flex;gap:4px;padding:8px max(4vw,16px);overflow-x:auto}
 nav a.tab{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;text-decoration:none;color:var(--mut);font-weight:600;font-size:15px;white-space:nowrap;min-height:44px}
@@ -123,7 +124,7 @@ button.ghost{background:transparent;color:var(--teal);border-color:var(--rule)}
 .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:600;margin-bottom:12px;min-height:44px}
 .foot{padding:18px max(4vw,16px) 30px;font-size:13px;color:var(--mut)}
 pre,.scroll{overflow-x:auto}code{overflow-wrap:anywhere}
-body.compact .hero{padding-block:14px}body.compact .hero h1,body.compact .hero p,body.compact .hero .pulse,body.compact .hero .pic{display:none}body.compact .asof{margin-top:6px}
+body.compact .hero{padding-block:14px}body.compact .hero h1,body.compact .hero p,body.compact .hero .pulse,body.compact .hero .pic{display:none}body.compact .asof{margin-top:0}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media(max-width:700px){
  nav.top{position:fixed;top:auto;bottom:0;left:0;right:0;border-top:1px solid var(--rule);border-bottom:0;padding-bottom:env(safe-area-inset-bottom)}
@@ -145,7 +146,7 @@ body.compact .hero{padding-block:14px}body.compact .hero h1,body.compact .hero p
   <h1>Should you apply? Know before you bid.</h1>
   <p>Mainboard and SME IPOs analysed from the RHP, peer valuation, daily GMP and subscription, with a clear apply or avoid call.</p>
   <div class="pulse" id="pulse"></div>
-  <span class="asof" id="asof"></span>
+  <div class="row" style="margin-top:12px;gap:8px;position:relative"><span class="asof" id="asof" style="margin:0"></span><span class="asof" id="livemsg" style="margin:0"></span><button id="refresh" hidden class="refresh">↻ Refresh</button></div>
 </div></header>
 <nav class="top" id="nav"><div class="wrap">
   <a class="tab" href="#ipos" data-v="ipos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>IPOs</a>
@@ -582,7 +583,140 @@ render();
 /* live data: load the latest data.json published by the GitHub updater, if this copy has one */
 const DSRC=(document.querySelector('meta[name=nn-data]')||{}).content||'data.json';
 function pull(){fetch(DSRC+(DSRC.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{if(!d||!Array.isArray(d.ipos)||!Array.isArray(d.listed)||d.version===SEED.version)return;SEED=d;const ap=DB.apps;DB=clone(SEED);DB.apps=ap;setAsof();if(!document.activeElement||!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName))render()}).catch(()=>{})}
-pull();setInterval(pull,15*60e3);document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull()});
+/* ---------- in-app live updater (Android app only: uses the app's native fetch bridge) ---------- */
+const BR=(window.NayaNivesh&&typeof NayaNivesh.fetch==='function')?NayaNivesh:null;
+const LKEY='nn-live',GP='https://www.gmpipowatch.in';
+const REGS=['KFin Technologies','MUFG Intime','Bigshare Services','Maashitla Securities','Cameo Corporate','Skyline Financial','Purva Sharegistry','MAS Services'];
+const MI={jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+const p2=n=>String(n).padStart(2,'0');
+const todayIST=()=>new Date(Date.now()+5.5*3600e3).toISOString().slice(0,10);
+const addDays=(d,n)=>new Date(Date.parse(d)+n*864e5).toISOString().slice(0,10);
+const pnum=s=>{if(s==null)return null;if(typeof s==='number')return s;const t=String(s).replace(/[,₹]/g,'').replace(/Rs\.?/i,'').trim();const m=t.match(/-?\d+(?:\.\d+)?/);if(!m)return null;const v=parseFloat(m[0]);return /^\(.*\)$/.test(t)?-Math.abs(v):v};
+const cname=s=>String(s||'').replace(/\s+/g,' ').replace(/\b(IPO|SME|NSE|BSE|Emerge|Mainboard|Ltd\.?|Limited|Upcoming|Open|Closed|Listed)\b/gi,'').replace(/[()[\]]/g,' ').replace(/\s+/g,' ').trim().replace(/^[\s\-–·]+|[\s\-–·]+$/g,'');
+const slg=s=>cname(s).toLowerCase().replace(/&/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+function pdate(s){
+  if(!s)return null;s=String(s);let m=s.match(/(\d{4})-(\d{2})-(\d{2})/);if(m)return m[0];
+  m=s.match(/(\d{1,2})[\s\-/]+([A-Za-z]{3})[A-Za-z]*[\s\-/,]+(\d{2,4})/);
+  if(m&&MI[m[2].toLowerCase()]){let y=+m[3];if(y<100)y+=2000;return y+'-'+p2(MI[m[2].toLowerCase()])+'-'+p2(+m[1])}
+  m=s.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);if(m)return m[3]+'-'+p2(+m[2])+'-'+p2(+m[1]);
+  m=s.match(/(\d{1,2})\s+([A-Za-z]{3})[A-Za-z]*\b/);
+  if(m&&MI[m[2].toLowerCase()]){const t=todayIST(),y=+t.slice(0,4);const d=y+'-'+p2(MI[m[2].toLowerCase()])+'-'+p2(+m[1]);return Date.parse(d)-Date.parse(t)>200*864e5?(y-1)+d.slice(4):d}
+  return null;
+}
+let cbN=0;const cbs={};
+window.__nnCb=(id,ok,txt)=>{const f=cbs[id];delete cbs[id];if(f)f(ok?txt:null)};
+const nfetch=url=>new Promise(res=>{const id='c'+(++cbN);cbs[id]=res;setTimeout(()=>{if(cbs[id]){delete cbs[id];res(null)}},30000);try{BR.fetch(id,url)}catch(e){delete cbs[id];res(null)}});
+function parseDoc(html){
+  html=html.replace(/<(script|style|noscript)[\s\S]*?<\/\1>/gi,'').replace(/<(\/(?:li|p|div|tr|h\d|dt|dd|section|ul|table)|br\s*\/?)>/gi,m=>m+'\n');
+  const doc=new DOMParser().parseFromString(html,'text/html');
+  const text=(doc.body?doc.body.textContent:'').split('\n').map(l=>l.replace(/\s+/g,' ').trim()).filter(Boolean).join('\n');
+  return{doc,text};
+}
+const tablesOf=doc=>[...doc.querySelectorAll('table')].map(t=>[...t.querySelectorAll('tr')].map(tr=>[...tr.querySelectorAll('th,td')].map(c=>c.textContent.replace(/\s+/g,' ').trim())).filter(r=>r.some(Boolean))).filter(r=>r.length>=2).map(r=>({h:r[0].map(x=>x.toLowerCase()),rows:r.slice(1)}));
+const colIx=(h,keys,avoid=[])=>{const i=h.findIndex(x=>keys.some(k=>x.includes(k))&&!avoid.some(a=>x.includes(a)));return i<0?null:i};
+const lval=(text,...labels)=>{for(const l of labels){const m=text.match(new RegExp(l.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s*[:\\-]?\\s*([^\\n]{1,60})','i'));if(m&&!['','-','TBA','[●]'].includes(m[1].trim()))return m[1].trim()}return null};
+function fyLabel(s){const p=pdate(s);if(p){const y=+p.slice(0,4),mo=+p.slice(5,7);return mo===3?'FY'+p2(y%100):MON[mo-1]+' '+y}const m=String(s).match(/FY\s?'?(\d{2,4})/i);return m?'FY'+p2(+m[1]%100):null}
+function parseFin(h,rows){
+  const out={},put=(per,k,v)=>{const l=fyLabel(per);if(l&&v!=null)(out[l]=out[l]||{y:l})[k]=v};
+  const km=[['revenue','rev'],['total income','rev'],['profit after tax','pat'],['pat','pat'],['net worth','nw'],['ebitda','ebitda'],['assets','assets']];
+  if(h.some(x=>x.includes('revenue')||x.includes('profit'))){for(const r of rows)h.forEach((x,i)=>{const k=km.find(z=>x.includes(z[0]));if(k&&i<r.length)put(r[0],k[1],pnum(r[i]))})}
+  else for(const r of rows){const l=r[0].toLowerCase(),k=km.find(z=>l.includes(z[0]));if(k)for(let i=1;i<Math.min(r.length,h.length);i++)put(h[i],k[1],pnum(r[i]))}
+  const a=Object.values(out).filter(r=>r.rev!=null||r.pat!=null);a.sort((x,y)=>(x.y.startsWith('FY')?0:1)-(y.y.startsWith('FY')?0:1)||(x.y<y.y?-1:1));return a.length?a:null;
+}
+async function gpDetail(slug){
+  const html=await nfetch(GP+'/ipo/'+slug);if(!html||html.length<500)return null;
+  const{doc,text}=parseDoc(html),d={slug,url:GP+'/ipo/'+slug};
+  const h1=doc.querySelector('h1');d.name=h1?cname(h1.textContent.replace(/(GMP|Today|Grey Market Premium).*$/i,'')):null;
+  d.seg=/\bSME IPO\b|classified as a SME|NSE SME|BSE SME|Emerge/.test(text)?'SME':'Mainboard';
+  const band=lval(text,'IPO Price Band','Price Band');if(band){const v=(band.match(/[\d,]+(?:\.\d+)?/g)||[]).map(pnum).filter(Boolean);if(v.length)d.band=[Math.min(...v),Math.max(...v)]}
+  const lot=pnum(lval(text,'Lot Size'));if(lot>=1)d.lot=Math.round(lot);
+  const sz=lval(text,'Issue Size');if(sz&&/cr/i.test(sz))d.issueCr=pnum(sz);
+  const fr=lval(text,'Fresh Issue');if(fr&&/cr/i.test(fr))d.freshCr=pnum(fr);
+  for(const[k,labs]of[['open',['IPO Open Date','Open Date']],['close',['IPO Close Date','Close Date']],['allot',['Basis of Allotment','Allotment Date']],['refund',['Initiation of Refunds','Refund']],['list',['Listing Date']]]){const v=pdate(lval(text,...labs));if(v)(d.dates=d.dates||{})[k]=v}
+  const reg=lval(text,'Registrar');if(reg){const R=REGS.find(r=>reg.toLowerCase().includes(r.split(' ')[0].toLowerCase()));if(R)d.registrar=R}
+  const lo=text.match(/Listing (?:Open|Price|Day Open)[^\n₹]{0,40}₹\s*([\d,]+(?:\.\d+)?)/i);if(lo)d.listOpen=pnum(lo[1]);
+  for(const{h,rows}of tablesOf(doc)){
+    if(colIx(h,['date'])!=null&&colIx(h,['gmp'])!=null&&colIx(h,['category'])==null){const di=colIx(h,['date']),gi=colIx(h,['gmp'],['%']);if(gi==null)continue;const pts=[];for(const r of rows){const dd=pdate(r[di]),gv=pnum(r[gi]);if(dd&&gv!=null&&Math.abs(gv)<1e5)pts.push({d:dd,v:gv})}if(pts.length)d.gmp=pts}
+    else if(colIx(h,['category'])!=null&&colIx(h,['subscription','times','(x)'])!=null){const ci=colIx(h,['category']),si=colIx(h,['subscription','times','(x)']),s={};
+      for(const r of rows){const c=(r[ci]||'').toLowerCase(),v=pnum(r[si]);if(v==null)continue;if(/qib|qualified/.test(c))s.qib=v;else if(/nii|non|hni/.test(c)){if(s.nii==null)s.nii=v}else if(/retail|individual|rii/.test(c))s.rii=v;else if(c.includes('employee'))s.emp=v;else if(c.includes('shareholder'))s.sh=v;else if(/total|overall/.test(c))s.total=v}
+      if(s.total!=null)d.sub=s}
+    else if(colIx(h,['kpi'])!=null){for(const r of rows){if(r.length<2)continue;const k=r[0].toLowerCase(),v=pnum(r[1]);if(v==null)continue;
+      if(k.startsWith('roe'))d.roe=v;else if(k.includes('roce'))d.roce=v;else if(k.includes('ronw'))d.ronw=v;else if(k.includes('ebitda'))d.ebitdaM=v;else if(k.includes('pat margin'))d.patM=v;else if(k.includes('debt'))d.de=v;else if(k.includes('eps')||k.includes('earning'))d.eps=v;else if(k.includes('p/e')||k.includes('pe ratio'))d.pe=v;else if(k.includes('nav'))d.nav=v;else if(k.includes('market cap'))d.mcapCr=v}}
+    else if(colIx(h,['company','name'])!=null&&colIx(h,['p/e','pe'])!=null&&colIx(h,['ronw','eps'])!=null){const ni=colIx(h,['company','name']),pi=colIx(h,['p/e','pe']),ri=colIx(h,['ronw']);const peers=rows.filter(r=>ni<r.length&&slg(r[ni])!==slug).map(r=>({n:cname(r[ni]),pe:pi!=null?pnum(r[pi]):null,ronw:ri!=null?pnum(r[ri]):null}));if(peers.length)d.peers=peers}
+    else if(h.some(x=>x.includes('revenue'))||rows.some(r=>(r[0]||'').toLowerCase().includes('revenue'))){const f=parseFin(h,rows);if(f)d.fin=f}
+  }
+  return d;
+}
+async function gpDiscover(){
+  const found={};
+  for(const[path,seg]of[['/',null],['/mainboard','Mainboard'],['/sme','SME']]){
+    const html=await nfetch(GP+path);if(!html)continue;const{doc}=parseDoc(html);
+    for(const a of doc.querySelectorAll('a[href]')){const m=(a.getAttribute('href')||'').match(/^(?:https:\/\/www\.gmpipowatch\.in)?\/ipo\/([a-z0-9-]+)\/?$/);if(!m)continue;
+      const tr=a.closest('tr'),ctx=(tr||a).textContent;const st=['Open','Upcoming','Closed','Listed'].find(w=>new RegExp('\\b'+w+'\\b').test(ctx))||null;
+      const sg=seg||(/\bSME\b/.test(ctx)?'SME':/Mainboard/.test(ctx)?'Mainboard':null);const f=found[m[1]]=found[m[1]]||{slug:m[1],seg:sg,status:st};f.seg=f.seg||sg;f.status=f.status||st}
+  }
+  return found;
+}
+async function ipowatchGmp(){
+  const out={},html=await nfetch('https://ipowatch.in/ipo-grey-market-premium-latest-ipo-gmp/');if(!html)return out;
+  for(const{h,rows}of tablesOf(parseDoc(html).doc)){const ni=colIx(h,['ipo','name','company']),gi=colIx(h,['gmp'],['%','date']);if(ni==null||gi==null)continue;for(const r of rows)if(Math.max(ni,gi)<r.length&&pnum(r[gi])!=null)out[slg(r[ni])]=pnum(r[gi])}
+  return out;
+}
+function mergeGmp(ipo,pts){const t=todayIST(),g={};for(const p of ipo.gmp||[])g[p.d]=p;for(const p of pts)if(p.d<=t)g[p.d]={d:p.d,v:p.v};const l=(ipo.dates||{}).list;ipo.gmp=Object.values(g).filter(p=>!l||p.d<=l).sort((a,b)=>a.d<b.d?-1:1).slice(-30)}
+function applyDetail(ipo,d){
+  const t=todayIST();
+  for(const k of['band','lot','issueCr','freshCr','registrar','pe','eps','nav','ronw','roce','de','ebitdaM','patM','mcapCr'])if(d[k]!=null)ipo[k]=d[k];
+  if(d.issueCr!=null&&d.freshCr!=null)ipo.ofsCr=Math.max(0,+(d.issueCr-d.freshCr).toFixed(2));
+  if(d.dates)ipo.dates=Object.assign(ipo.dates||{},d.dates);
+  if(d.peers&&!(ipo.peers||[]).length)ipo.peers=d.peers;
+  if(d.fin){const rows={};for(const r of ipo.fin||[])rows[r.y]=r;for(const r of d.fin){const c=rows[r.y]=rows[r.y]||{y:r.y};for(const k in r)if(c[k]==null&&r[k]!=null)c[k]=r[k]}ipo.fin=Object.values(rows).sort((x,y)=>(x.y.startsWith('FY')?0:1)-(y.y.startsWith('FY')?0:1)||(x.y<y.y?-1:1))}
+  if(d.sub){const o=ipo.sub||{},s=Object.assign({emp:o.emp??null,sh:o.sh??null},d.sub);s.asOf=t;const cl=(ipo.dates||{}).close;s.final=!!(cl&&t>cl);s.days=(o.days||[]).filter(x=>x.d!==t);s.days.push({d:t,total:s.total,qib:s.qib,nii:s.nii,rii:s.rii});s.days.sort((a,b)=>a.d<b.d?-1:1);s.days=s.days.slice(-10);ipo.sub=s}
+  if(d.gmp)mergeGmp(ipo,d.gmp);
+  if(d.url&&!(ipo.sources=ipo.sources||[]).includes(d.url))ipo.sources.push(d.url);
+  if(ipo.band&&ipo.lot&&!ipo.minShares)ipo.minShares=ipo.lot*(ipo.seg==='SME'&&ipo.lot*ipo.band[1]<2e5?2:1);
+  if(d.band&&(ipo.dates||{}).open)delete ipo.tentative;
+}
+function newIpo(d,seg){const name=d.name||d.slug.replace(/-/g,' ');const sg=seg||d.seg||'Mainboard';return{id:slg(name).slice(0,40)||d.slug,gp:d.slug,name,seg:sg,exch:sg==='SME'?'NSE / BSE SME':'BSE, NSE',sector:'',band:[0,0],lot:null,minShares:null,issueCr:null,freshCr:null,ofsCr:null,dates:{},fin:[],peers:[],sub:null,gmp:[],strengths:[],risks:[],objects:[],views:[],sources:[],about:'',finNote:'Figures collected automatically from public IPO pages; check the RHP.'}}
+let busy=false;
+async function liveUpdate(force){
+  if(!BR||busy)return;const last=+(localStorage.getItem(LKEY+'-t')||0);if(!force&&Date.now()-last<20*60e3)return;
+  busy=true;setLive('Refreshing live data…');
+  try{
+    const data=clone(SEED),t=todayIST(),byGp={};data.dropped=data.dropped||[];for(const i of data.ipos)byGp[i.gp||i.id]=i;
+    let ok=0;
+    const disc=await gpDiscover();if(Object.keys(disc).length)ok++;
+    for(const slug of Object.keys(byGp)){const d=await gpDetail(slug);if(d){ok++;applyDetail(byGp[slug],d)}}
+    for(const[slug,info]of Object.entries(disc)){
+      if(byGp[slug]||info.status==='Listed'||data.dropped.includes(slug))continue;
+      const d=await gpDetail(slug);if(!d||!d.band||!(d.dates||{}).open)continue;
+      const cl=d.dates.close,recent=cl&&cl>=addDays(t,-4),soon=d.dates.open<=addDays(t,10);if(!(recent&&soon))continue;
+      const ipo=newIpo(d,info.seg);applyDetail(ipo,d);if(data.ipos.some(x=>x.id===ipo.id))ipo.id+='-'+slug.slice(0,6);data.ipos.push(ipo);byGp[slug]=ipo;
+    }
+    const iw=await ipowatchGmp();if(Object.keys(iw).length)ok++;
+    for(const ipo of data.ipos){
+      const q=iw[slg(ipo.name)];if(q!=null&&!(ipo.gmp||[]).some(p=>p.d===t))mergeGmp(ipo,[{d:t,v:q}]);
+      const l=(ipo.dates||{}).list;
+      if(l&&t>=l&&!(ipo.listing||{}).open){const d=await gpDetail(ipo.gp||ipo.id);if(d&&d.listOpen){ipo.listing={open:d.listOpen,close:null};const iss=ipo.issuePrice||ipo.band[1];
+        data.listed=data.listed.filter(r=>slg(r[0])!==slg(ipo.name));data.listed.unshift([ipo.name,ipo.seg==='SME'?'S':'M',l,iss,d.listOpen,(ipo.sub||{}).total||0,+((d.listOpen-iss)/iss*100).toFixed(2)])}}
+    }
+    data.ipos=data.ipos.filter(i=>{const l=(i.dates||{}).list,c=(i.dates||{}).close;const drop=(l&&l<addDays(t,-3)&&(i.listing||{}).open)||(!l&&c&&c<addDays(t,-21));if(drop)data.dropped.push(i.gp||i.id);return!drop});
+    data.dropped=data.dropped.slice(-200);
+    const cut=addDays(t,-90);data.listed=data.listed.filter(r=>r[2]>=cut).sort((a,b)=>a[2]<b[2]?1:-1);
+    if(!ok){setLive('Offline: showing saved data');return}
+    const n=new Date(Date.now()+5.5*3600e3);data.asOf=n.getUTCDate()+' '+MON[n.getUTCMonth()]+' '+n.getUTCFullYear()+', '+p2(n.getUTCHours())+':'+p2(n.getUTCMinutes())+' IST';
+    data.ts=Date.now();data.version='live-'+data.ts;
+    SEED=data;const ap=DB.apps;DB=clone(SEED);DB.apps=ap;
+    try{localStorage.setItem(LKEY,JSON.stringify(data));localStorage.setItem(LKEY+'-t',String(Date.now()))}catch(e){}
+    setAsof();setLive('');if(!document.activeElement||!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName))render();toast('Live data updated');
+  }catch(e){setLive('Could not refresh; showing saved data')}finally{busy=false}
+}
+function setLive(msg){const el=document.getElementById('livemsg');if(el)el.textContent=msg}
+if(BR){
+  try{const s=JSON.parse(localStorage.getItem(LKEY)||'null');if(s&&Array.isArray(s.ipos)&&Array.isArray(s.listed)){for(const i of SEED.ipos)if(!s.ipos.some(x=>(x.gp||x.id)===(i.gp||i.id))&&!(s.dropped||[]).includes(i.gp||i.id))s.ipos.push(i);SEED=s;const ap=DB.apps;DB=clone(SEED);DB.apps=ap;setAsof();render()}}catch(e){}
+  const rb=document.getElementById('refresh');if(rb){rb.hidden=false;rb.addEventListener('click',()=>liveUpdate(true))}
+  setTimeout(()=>liveUpdate(false),600);setInterval(()=>liveUpdate(false),20*60e3);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)liveUpdate(false)});
+}else{pull();setInterval(pull,15*60e3);document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull()})}
 }
 </script>
 </body>

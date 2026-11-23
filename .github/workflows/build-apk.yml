@@ -1,7 +1,7 @@
 name: Build Android APK
 on:
   push:
-    paths: ['android/**', 'docs/index.html', '.github/workflows/build-apk.yml']
+    paths: ['android/**', '.github/workflows/build-apk.yml']
   workflow_dispatch:
 jobs:
   build:
@@ -12,14 +12,6 @@ jobs:
         with: { distribution: temurin, java-version: '17' }
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: '8.7' }
-      - name: Point the app at this repository's live data
-        run: |
-          OWNER=$(echo "${GITHUB_REPOSITORY%/*}" | tr '[:upper:]' '[:lower:]')
-          REPO="${GITHUB_REPOSITORY#*/}"
-          URL="https://${OWNER}.github.io/${REPO}/data.json"
-          cp docs/index.html android/app/src/main/assets/index.html
-          sed -i "s#<meta name=\"nn-data\" content=\"\">#<meta name=\"nn-data\" content=\"${URL}\">#" android/app/src/main/assets/index.html
-          grep -o 'nn-data" content="[^"]*"' android/app/src/main/assets/index.html
       - name: Build
         working-directory: android
         run: gradle assembleDebug
