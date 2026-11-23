@@ -1,0 +1,29 @@
+name: Update IPO data
+on:
+  schedule:
+    # every 2 hours from 08:47 to 20:47 IST (cron is in UTC), every day
+    - cron: '17 3,5,7,9,11,13,15 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: update-data
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install -r scraper/requirements.txt
+      - name: Collect latest IPO data
+        run: python scraper/update.py
+      - name: Save if changed
+        run: |
+          git config user.name  "naya-nivesh-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data.json
+          if git diff --cached --quiet; then echo "No changes"; else
+            git commit -m "Data refresh $(TZ=Asia/Kolkata date '+%d %b %Y %H:%M IST')"
+            git push
+          fi
