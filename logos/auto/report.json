@@ -29,7 +29,10 @@
  },
  "foodlinkfbholdings": {
   "name": "Foodlink F&B Holdings",
-  "site": null
+  "site": null,
+  "file": "logos/auto/foodlinkfbholdings.png",
+  "url": "https://www.gmpipowatch.in/uploads/ipos/foodlink-f-b-holdings.png",
+  "src": "ipo-page"
  },
  "antalaindustries": {
   "name": "Antala Industries",
@@ -61,7 +64,10 @@
  },
  "maxwellengineering": {
   "name": "Maxwell Engineering",
-  "site": null
+  "site": null,
+  "file": "logos/auto/maxwellengineering.png",
+  "url": "https://www.gmpipowatch.in/uploads/ipos/maxwell-engineering-solutions.png",
+  "src": "ipo-page"
  },
  "vectrasenprocon": {
   "name": "Vectras Enprocon",
@@ -107,7 +113,10 @@
  },
  "sfcenvironmentaltech": {
   "name": "SFC Environmental Tech",
-  "site": null
+  "site": null,
+  "file": "logos/auto/sfcenvironmentaltech.png",
+  "url": "https://www.gmpipowatch.in/uploads/ipos/sfc-environmental-technologies.png",
+  "src": "ipo-page"
  },
  "wisconindustries": {
   "name": "Wiscon Industries",
@@ -153,19 +162,31 @@
  },
  "sahajanandmedicaltech": {
   "name": "Sahajanand Medical Tech",
-  "site": null
+  "site": null,
+  "file": "logos/auto/sahajanandmedicaltech.png",
+  "url": "https://www.gmpipowatch.in/uploads/ipos/sahajanand-medical-technologies.png",
+  "src": "ipo-page"
  },
  "shellz": {
   "name": "Shellz",
-  "site": null
+  "site": null,
+  "file": "logos/auto/shellz.png",
+  "url": "https://www.gmpipowatch.in/uploads/ipos/shellz-india.png",
+  "src": "ipo-page"
  },
  "tonboimaging": {
   "name": "Tonbo Imaging",
-  "site": null
+  "site": null,
+  "file": "logos/auto/tonboimaging.png",
+  "url": "https://www.gmpipowatch.in/uploads/ipos/tonbo-imaging-india.png",
+  "src": "ipo-page"
  },
  "zetwerkmanufacturing": {
   "name": "Zetwerk Manufacturing",
-  "site": null
+  "site": null,
+  "file": "logos/auto/zetwerkmanufacturing.png",
+  "url": "https://www.gmpipowatch.in/uploads/ipos/zetwerk.png",
+  "src": "ipo-page"
  },
  "fusioncx": {
   "name": "Fusion CX",
@@ -176,7 +197,10 @@
  },
  "ravitaengineering": {
   "name": "Ravita Engineering",
-  "site": null
+  "site": null,
+  "file": "logos/auto/ravitaengineering.png",
+  "url": "https://www.gmpipowatch.in/uploads/ipos/ravita-engineering-services.png",
+  "src": "ipo-page"
  },
  "hdfireprotect": {
   "name": "HD Fire Protect",
@@ -254,7 +278,10 @@
  },
  "sjpultrasonic": {
   "name": "SJP Ultrasonic",
-  "site": null
+  "site": null,
+  "file": "logos/auto/sjpultrasonic.png",
+  "url": "https://www.gmpipowatch.in/uploads/ipos/sjp-ultrasonics.png",
+  "src": "ipo-page"
  },
  "shreetnbpolymers": {
   "name": "Shree TNB Polymers",
@@ -321,11 +348,17 @@
  },
  "srit": {
   "name": "SRIT",
-  "site": null
+  "site": null,
+  "file": "logos/auto/srit.png",
+  "url": "https://www.gmpipowatch.in/uploads/ipos/srit-india.png",
+  "src": "ipo-page"
  },
  "shahinvestorshome": {
   "name": "Shah Investors Home",
-  "site": null
+  "site": null,
+  "file": "logos/auto/shahinvestorshome.png",
+  "url": "https://www.gmpipowatch.in/uploads/ipos/shah-investor-s-home.png",
+  "src": "ipo-page"
  },
  "shivchemagro": {
   "name": "Shivchem Agro",
@@ -340,7 +373,10 @@
  },
  "benchmarkinfotech": {
   "name": "Bench Mark Infotech",
-  "site": null
+  "site": null,
+  "file": "logos/auto/benchmarkinfotech.png",
+  "url": "https://www.gmpipowatch.in/uploads/ipos/bench-mark-infotech-services.png",
+  "src": "ipo-page"
  },
  "dudaniretail": {
   "name": "Dudani Retail",
@@ -351,7 +387,10 @@
  },
  "germangreensteelpower": {
   "name": "German Green Steel & Power",
-  "site": null
+  "site": null,
+  "file": "logos/auto/germangreensteelpower.png",
+  "url": "https://www.gmpipowatch.in/uploads/ipos/german-green-steel-and-power-gtmt.png",
+  "src": "ipo-page"
  },
  "himalayansolar": {
   "name": "Himalayan Solar",
