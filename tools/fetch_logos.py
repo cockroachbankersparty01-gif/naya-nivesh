@@ -44,11 +44,12 @@ def logo_from_page(base, soup, name):
     return out
 def find_site(name):
     q = quote_plus(f"{name} limited official website")
+    toks = tokens(name); links = []
+    r = get(f"https://www.bing.com/search?q={q}&setlang=en-IN")
+    if r: links += [a.get("href", "") for a in BeautifulSoup(r.text, "html.parser").select("li.b_algo h2 a")]
     r = get(f"https://html.duckduckgo.com/html/?q={q}")
-    if not r: return None
-    toks = tokens(name)
-    for a in BeautifulSoup(r.text, "html.parser").select("a.result__a"):
-        href = a.get("href", "")
+    if r: links += [a.get("href", "") for a in BeautifulSoup(r.text, "html.parser").select("a.result__a")]
+    for href in links:
         if "uddg=" in href: href = unquote(parse_qs(urlparse(href if href.startswith("http") else "https:" + href).query).get("uddg", [""])[0])
         dom = urlparse(href).netloc.lower().replace("www.", "")
         if not dom or any(b in dom for b in BLOCK): continue
@@ -60,10 +61,21 @@ def main():
     seed = json.loads(re.search(r'<script id="seed" type="application/json">(.*?)</script>', src, re.S).group(1))
     names = [(i["name"], i.get("gp")) for i in seed["ipos"]] + [(r[0], None) for r in seed["listed"]]
     rep = {}
+    prevf = OUT / "report.json"; prev = json.loads(prevf.read_text()) if prevf.exists() else {}
     for name, gp in names:
         k = key(name); hit = None; site = None
-        # 1) IPO tracker page
-        r = get(f"https://www.gmpipowatch.in/ipo/{gp or gp_slug(name)}")
+        # 0) skip if already found on an earlier run
+        old = [f for f in OUT.glob(k + ".*")]
+        if old and k in prev and prev[k].get("src"):
+            rep[k] = prev[k]; continue
+        # 1) IPO tracker: direct upload paths for common slug variants, then the IPO page
+        sl = gp or gp_slug(name)
+        for v in [sl, sl + "-ltd", sl + "-limited", sl.replace("-india", ""), sl.split("-")[0] + "-" + sl.split("-")[1] if sl.count("-") >= 1 else sl]:
+            for ext in ("png", "jpg", "webp"):
+                hit = save(k, "ipo-page", f"https://www.gmpipowatch.in/uploads/ipos/{v}.{ext}")
+                if hit: break
+            if hit: break
+        r = None if hit else get(f"https://www.gmpipowatch.in/ipo/{sl}")
         if r:
             soup = BeautifulSoup(r.text, "html.parser")
             for u in logo_from_page(r.url, soup, name)[:2]:
