@@ -41,9 +41,10 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
+        installCrashLog();
         pendingHash = hashOf(getIntent());
-        Notify.channel(this);
-        NewIpoJob.ensure(this);
+        try { Notify.channel(this); } catch (Throwable ignored) { }
+        try { NewIpoJob.ensure(this); } catch (Throwable ignored) { }
         getWindow().setStatusBarColor(Color.parseColor("#0f1a2a"));
         web = new WebView(this);
         WebSettings s = web.getSettings();
@@ -63,6 +64,34 @@ public class MainActivity extends Activity {
         if (state != null) web.restoreState(state);
         else web.loadUrl("file:///android_asset/index.html");
         setContentView(web);
+        showLastCrash();
+    }
+
+    /** If the app ever crashes, the error is saved and shown on the next start so it can be reported. */
+    private void installCrashLog() {
+        final Thread.UncaughtExceptionHandler prev = Thread.getDefaultUncaughtExceptionHandler();
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+            try {
+                java.io.StringWriter sw = new java.io.StringWriter();
+                e.printStackTrace(new java.io.PrintWriter(sw));
+                getSharedPreferences("nn", MODE_PRIVATE).edit().putString("crash", sw.toString()).commit();
+            } catch (Throwable ignored) { }
+            if (prev != null) prev.uncaughtException(t, e);
+        });
+    }
+
+    private void showLastCrash() {
+        final String c = getSharedPreferences("nn", MODE_PRIVATE).getString("crash", null);
+        if (c == null) return;
+        getSharedPreferences("nn", MODE_PRIVATE).edit().remove("crash").apply();
+        final String txt = c.length() > 1500 ? c.substring(0, 1500) : c;
+        new android.app.AlertDialog.Builder(this).setTitle("Naya Nivesh stopped last time")
+                .setMessage("Please send a screenshot of this to the developer:\n\n" + txt)
+                .setPositiveButton("Copy", (d, w) -> {
+                    android.content.ClipboardManager cm = getSystemService(android.content.ClipboardManager.class);
+                    if (cm != null) cm.setPrimaryClip(android.content.ClipData.newPlainText("crash", c));
+                })
+                .setNegativeButton("Close", null).show();
     }
 
     private static String hashOf(Intent i) {
@@ -130,11 +159,11 @@ public class MainActivity extends Activity {
 
         /** Saves the alert schedule (opening, closing, allotment, listing) as phone alarms. */
         @JavascriptInterface
-        public void setAlerts(String json) { Alerts.save(getApplicationContext(), json); }
+        public void setAlerts(String json) { try { Alerts.save(getApplicationContext(), json); } catch (Throwable ignored) { } }
 
         /** On/off for "new IPO announced" notifications that run in the background. */
         @JavascriptInterface
-        public void setNotifyNew(boolean on) { Alerts.prefs(getApplicationContext()).edit().putBoolean("notifyNew", on).apply(); }
+        public void setNotifyNew(boolean on) { try { Alerts.prefs(getApplicationContext()).edit().putBoolean("notifyNew", on).apply(); } catch (Throwable ignored) { } }
 
         /** Marks an IPO as already announced so the background check does not notify twice. */
         @JavascriptInterface
@@ -148,15 +177,17 @@ public class MainActivity extends Activity {
         /** Shows a notification right away. */
         @JavascriptInterface
         public void notify(String title, String text, String hash) {
-            Notify.post(getApplicationContext(), (title + hash).hashCode(), title, text, hash);
+            try { Notify.post(getApplicationContext(), (title + hash).hashCode(), title, text, hash); } catch (Throwable ignored) { }
         }
 
         /** Asks for notification permission (Android 13+). */
         @JavascriptInterface
         public void requestNotify() {
             if (Build.VERSION.SDK_INT >= 33) runOnUiThread(() -> {
-                if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED)
-                    requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 11);
+                try {
+                    if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED)
+                        requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 11);
+                } catch (Throwable ignored) { }
             });
         }
 

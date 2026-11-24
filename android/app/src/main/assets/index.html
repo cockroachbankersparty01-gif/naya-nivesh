@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>window.addEventListener('error',function(e){try{var d=document.getElementById('jserr')||document.createElement('div');d.id='jserr';d.style.cssText='position:fixed;left:8px;right:8px;bottom:80px;z-index:9999;background:#b42318;color:#fff;padding:10px;border-radius:10px;font:13px sans-serif';d.textContent='App error: '+(e.message||e)+' (line '+(e.lineno||'?')+'). Please send a screenshot.';(document.body||document.documentElement).appendChild(d)}catch(x){}});</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="nn-data" content="">
@@ -331,15 +332,6 @@ body{background:#fff}
 .tchk{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:14px;line-height:1.4}.tchk input{width:20px;height:20px;flex:none;margin-top:1px}
 #tg-b:disabled{opacity:.45}
 @media(min-width:600px){.tgate{place-items:center}.tbox{border-radius:22px}}
-.bksec{margin:26px 0 6px}.bksec h2{margin:0 0 4px}
-.bkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:12px}
-.bkcard{background:#fff;border:1px solid #e3e8ef;border-radius:18px;padding:16px;box-shadow:0 2px 4px rgba(15,35,70,.05),0 10px 24px rgba(15,35,70,.08);display:flex;flex-direction:column;gap:8px}
-.bkhd{display:flex;align-items:center;gap:12px;margin-bottom:4px}.bkhd b{font-size:18px}
-.bklogo{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:#fff;font:800 20px/1 Inter,system-ui,sans-serif;background:linear-gradient(135deg,var(--c1),var(--c2));flex:none}
-.bkad{margin-left:auto;font-size:11px;font-weight:700;color:#8a5a00;background:#fff4d6;border-radius:999px;padding:3px 8px}
-.bkrow{display:flex;justify-content:space-between;gap:10px;background:#f5f7fb;border-radius:10px;padding:10px 12px;font-size:14px}.bkrow span{color:var(--mut)}
-.bkbtn{display:block;text-align:center;margin-top:4px;padding:12px;border-radius:12px;background:linear-gradient(135deg,#0b2a5b,#16408a);color:#fff;font-weight:700;text-decoration:none;box-shadow:0 6px 14px rgba(11,42,91,.25)}
-.bkchg{font-size:12px;text-align:center;color:var(--mut);text-decoration:underline;overflow-wrap:anywhere}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
@@ -632,7 +624,7 @@ function viewList(){
   '<div class="toolbar"><label class="segsel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 17l6-6 4 4 8-8"/></svg><select id="segsel" aria-label="Segment">'+['All','Mainboard','SME'].map(s=>'<option'+(s===f?' selected':'')+' value="'+s+'">'+(s==='All'?'All IPOs':s)+'</option>').join('')+'</select></label>'+
   '<label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="search" placeholder="Search IPO by company name" aria-label="Search IPOs" value="'+esc(viewList.q||'')+'"></label></div>'+
   '<div class="grid" id="grid">'+gridHtml()+'</div>'+
-  '<p class="note">Naya Nivesh score runs 0–100: “Listing gain” weighs subscription, GMP and valuation; “Long term” weighs RHP fundamentals and valuation, less red-flag penalties. <a href="#method">How it works</a></p>'+brokersHtml();
+  '<p class="note">Naya Nivesh score runs 0–100: “Listing gain” weighs subscription, GMP and valuation; “Long term” weighs RHP fundamentals and valuation, less red-flag penalties. <a href="#method">How it works</a></p>';
 }
 function viewGmp(){
   const t=todayStr(),rows=seg=>DB.ipos.filter(i=>i.seg===seg&&['live','upcoming'].includes(tabOf(i))).sort((a,b)=>((a.dates||{}).open||'9')<((b.dates||{}).open||'9')?-1:1);
@@ -886,32 +878,6 @@ function viewMethod(){
   '<h3>Limits</h3><p class="note">Data refreshes automatically several times a day: new IPOs, daily GMP, subscription, allotment dates and listing-day results are collected from RHP summaries, exchange data and IPO trackers. Last refresh: '+esc(SEED.asOf)+'. Missing values stay blank rather than guessed. GMP is unofficial and has often been wrong.</p><p style="margin-top:10px"><a class="btn ghost" href="#legal">Disclaimer, privacy and terms →</a></p></div></div>';
 }
 
-/* ---------- brokers (affiliate / referral links) ----------
-   Put your own referral link in `ref` for each broker. If `ref` is empty,
-   the button opens the broker's normal account-opening page (no referral). */
-const BROKERS=[
-  {n:'Zerodha',c1:'#387ed1',c2:'#1f5fae',m:'Z',open:'https://zerodha.com/open-account',chg:'https://zerodha.com/charges',ao:'Free',del:'₹0',ref:''},
-  {n:'Angel One',c1:'#ff6a00',c2:'#e04f00',m:'A',open:'https://www.angelone.in/open-demat-account',chg:'https://www.angelone.in/pricing',ao:'Free',del:'₹20 or 0.1%*',ref:''},
-  {n:'Upstox',c1:'#5a298b',c2:'#41196b',m:'U',open:'https://upstox.com/open-demat-account/',chg:'https://upstox.com/',ao:'Free',del:'₹20/order',ref:''},
-  {n:'Groww',c1:'#00b386',c2:'#00936e',m:'G',open:'https://groww.in/open-demat-account',chg:'https://groww.in/',ao:'Free',del:'₹20 or 0.1%*',ref:''},
-  {n:'Dhan',c1:'#1aa260',c2:'#0d7d47',m:'D',open:'https://dhan.co/open-demat-account/',chg:'https://dhan.co/',ao:'Free',del:'₹0',ref:''}
-];
-const BROKER_CHECKED='November 2026';
-const hasRef=()=>BROKERS.some(b=>b.ref);
-function brokerCard(b){
-  const url=b.ref||b.open;
-  return '<article class="bkcard"><div class="bkhd"><span class="bklogo" style="--c1:'+b.c1+';--c2:'+b.c2+'">'+esc(b.m)+'</span><b>'+esc(b.n)+'</b>'+(b.ref?'<span class="bkad">Referral</span>':'')+'</div>'+
-   '<div class="bkrow"><span>Account opening</span><b>'+esc(b.ao)+'</b></div><div class="bkrow"><span>Equity delivery</span><b>'+esc(b.del)+'</b></div>'+
-   '<a class="bkbtn" href="'+esc(url)+'" target="_blank" rel="noopener'+(b.ref?' sponsored':'')+'">Open account ↗</a>'+
-   '<a class="bkchg" href="'+esc(b.chg)+'" target="_blank" rel="noopener">See all charges on '+esc(b.n)+'’s website ↗</a></article>';
-}
-function brokersHtml(){
-  return '<section class="bksec"><h2>Apply for IPOs through a broker</h2><p class="sub">You need a demat and trading account to apply for an IPO via UPI. Compare popular SEBI-registered brokers:</p>'+
-  '<div class="bkgrid">'+BROKERS.map(brokerCard).join('')+'</div>'+
-  '<p class="dnote">'+(hasRef()?'<b>Disclosure:</b> some “Open account” buttons are referral links; Naya Nivesh may receive a referral benefit from the broker at no extra cost to you. ':'')+
-  'Charges shown are for resident individual accounts, as published by the brokers and checked in '+BROKER_CHECKED+'; they change often, and statutory charges (STT, GST, stamp duty, DP charges, AMC) are extra. *Lower of the two, per executed order. Always confirm on the broker’s website. Listing here is not a recommendation of any broker; Naya Nivesh is not an agent or authorised person of any broker. <a href="#legal">Disclaimer</a></p></section>';
-}
-
 /* ---------- legal, disclaimers & policies ---------- */
 const OWNER={name:'',email:'',city:'',updated:'24 November 2026'};
 const TERMS_V='2026-11-24';
@@ -938,11 +904,6 @@ function legalSecs(){
    li(['Naya Nivesh is an independent app. It is <b>not affiliated with, endorsed by or sponsored by</b> SEBI, NSE, BSE, NSDL, CDSL, NPCI, any registrar (KFin Technologies, MUFG Intime/Link Intime, Bigshare, Skyline, Cameo, Maashitla, Purva and others), any issuer company, lead manager or broker.',
     'Company names, logos and trademarks belong to their respective owners and are shown only to identify the IPO being discussed. No endorsement is implied. A rights-holder may ask for a logo or name to be removed using the contact below; it will be removed promptly.',
     'Links to registrar, exchange and regulator websites open those official sites in your browser. Naya Nivesh does not control, and is not responsible for, their content or availability.'])],
-  ['ref','Broker links and referral disclosure',
-   li(['The “Apply for IPOs through a broker” section lists SEBI-registered stock brokers for convenience. Listing is not an endorsement or recommendation of any broker, and the order shown is not a ranking.',
-    'Some “Open account” buttons may be <b>referral or affiliate links</b>. If you open an account through them, Naya Nivesh may receive a referral benefit from the broker. This costs you nothing extra and does not change any score or data in the app.',
-    'Naya Nivesh is not a stock broker, sub-broker, authorised person or agent of any broker, does not open accounts, and never handles your money, KYC documents or orders. Account opening, KYC, charges and services are solely between you and the broker, under its terms and SEBI rules.',
-    'Charges shown are summaries of what each broker publishes and can change without notice. The broker’s own website and your contract note are final.'])],
   ['data','Data sources and accuracy',
    li(['Information is compiled from public sources: the issuer’s DRHP / RHP and price-band advertisement, NSE and BSE issue data and notices, registrar notices, and public IPO tracker websites.',
     'Data is refreshed automatically but can be delayed, incomplete or wrong (for example a changed price band, revised dates, or an error at the source). <b>The RHP, the exchanges and the registrar are the only authoritative sources</b>; where they differ from this app, they prevail.',
