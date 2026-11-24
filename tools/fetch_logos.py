@@ -60,6 +60,22 @@ def main():
     src = pathlib.Path("android/app/src/main/assets/index.html").read_text(encoding="utf-8")
     seed = json.loads(re.search(r'<script id="seed" type="application/json">(.*?)</script>', src, re.S).group(1))
     names = [(i["name"], i.get("gp")) for i in seed["ipos"]] + [(r[0], None) for r in seed["listed"]]
+    slugs = set()
+    for sm in ("https://www.gmpipowatch.in/sitemap.xml", "https://www.gmpipowatch.in/sitemap-ipos.xml", "https://www.gmpipowatch.in/sitemap_index.xml"):
+        r = get(sm)
+        if r:
+            slugs |= set(re.findall(r"/ipo/([a-z0-9-]+)</loc>", r.text))
+            for sub in re.findall(r"<loc>(https://www\.gmpipowatch\.in/[^<]*sitemap[^<]*\.xml)</loc>", r.text):
+                r2 = get(sub)
+                if r2: slugs |= set(re.findall(r"/ipo/([a-z0-9-]+)</loc>", r2.text))
+    print("sitemap slugs:", len(slugs), flush=True)
+    def match(name):
+        t = tokens(name) or re.findall(r"[a-z0-9]+", name.lower())
+        best = None
+        for sl in slugs:
+            parts = sl.split("-"); sc = sum(1 for x in t if x in parts)
+            if sc and parts[0] == (t[0] if t else "") and (best is None or sc > best[0] or (sc == best[0] and len(sl) < len(best[1]))): best = (sc, sl)
+        return best[1] if best else None
     rep = {}
     prevf = OUT / "report.json"; prev = json.loads(prevf.read_text()) if prevf.exists() else {}
     for name, gp in names:
@@ -70,6 +86,9 @@ def main():
             rep[k] = prev[k]; continue
         # 1) IPO tracker: direct upload paths for common slug variants, then the IPO page
         sl = gp or gp_slug(name)
+        if not (old and k in prev and prev[k].get("src")):
+            m = match(name)
+            if m: sl = m
         for v in [sl, sl + "-ltd", sl + "-limited", sl.replace("-india", ""), sl.split("-")[0] + "-" + sl.split("-")[1] if sl.count("-") >= 1 else sl]:
             for ext in ("png", "jpg", "webp"):
                 hit = save(k, "ipo-page", f"https://www.gmpipowatch.in/uploads/ipos/{v}.{ext}")
