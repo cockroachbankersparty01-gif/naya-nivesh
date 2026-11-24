@@ -1,6 +1,9 @@
 package in.nayanivesh.app;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -18,6 +21,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -31,10 +36,14 @@ public class MainActivity extends Activity {
     private static final String[] ALLOWED_HOSTS = {"www.gmpipowatch.in", "gmpipowatch.in", "ipowatch.in", "www.ipowatch.in"};
     private WebView web;
     private final ExecutorService pool = Executors.newFixedThreadPool(3);
+    private String pendingHash = null;
 
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
+        pendingHash = hashOf(getIntent());
+        Notify.channel(this);
+        NewIpoJob.ensure(this);
         getWindow().setStatusBarColor(Color.parseColor("#0f1a2a"));
         web = new WebView(this);
         WebSettings s = web.getSettings();
@@ -56,6 +65,18 @@ public class MainActivity extends Activity {
         setContentView(web);
     }
 
+    private static String hashOf(Intent i) {
+        String h = i == null ? null : i.getStringExtra("hash");
+        return h != null && h.startsWith("#") ? h : null;
+    }
+
+    @Override
+    protected void onNewIntent(Intent i) {
+        super.onNewIntent(i);
+        String h = hashOf(i);
+        if (h != null && web != null) web.evaluateJavascript("location.hash=" + JSONObject.quote(h), null);
+    }
+
     @Override protected void onSaveInstanceState(Bundle out) { super.onSaveInstanceState(out); web.saveState(out); }
 
     @Override
@@ -74,7 +95,7 @@ public class MainActivity extends Activity {
         return false;
     }
 
-    private static String download(String url) throws Exception {
+    static String download(String url) throws Exception {
         HttpURLConnection c = (HttpURLConnection) new URL(url).openConnection();
         c.setConnectTimeout(15000);
         c.setReadTimeout(20000);
@@ -106,5 +127,41 @@ public class MainActivity extends Activity {
                 web.post(() -> web.evaluateJavascript(js, null));
             });
         }
+
+        /** Saves the alert schedule (opening, closing, allotment, listing) as phone alarms. */
+        @JavascriptInterface
+        public void setAlerts(String json) { Alerts.save(getApplicationContext(), json); }
+
+        /** On/off for "new IPO announced" notifications that run in the background. */
+        @JavascriptInterface
+        public void setNotifyNew(boolean on) { Alerts.prefs(getApplicationContext()).edit().putBoolean("notifyNew", on).apply(); }
+
+        /** Marks an IPO as already announced so the background check does not notify twice. */
+        @JavascriptInterface
+        public void markKnown(String slug) {
+            if (slug == null || slug.isEmpty()) return;
+            Set<String> k = new HashSet<>(Alerts.prefs(getApplicationContext()).getStringSet("known", new HashSet<>()));
+            k.add(slug);
+            Alerts.prefs(getApplicationContext()).edit().putStringSet("known", k).apply();
+        }
+
+        /** Shows a notification right away. */
+        @JavascriptInterface
+        public void notify(String title, String text, String hash) {
+            Notify.post(getApplicationContext(), (title + hash).hashCode(), title, text, hash);
+        }
+
+        /** Asks for notification permission (Android 13+). */
+        @JavascriptInterface
+        public void requestNotify() {
+            if (Build.VERSION.SDK_INT >= 33) runOnUiThread(() -> {
+                if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED)
+                    requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 11);
+            });
+        }
+
+        /** The screen a tapped notification should open, if any (used once at start-up). */
+        @JavascriptInterface
+        public String openHash() { String h = pendingHash; pendingHash = null; return h == null ? "" : h; }
     }
 }
