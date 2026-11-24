@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>Crystal Crop Protection Limited</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- site icons -->
+    <base href="/" />
+
+
+
+
+    <link rel="icon" href="images/fevicon/fevicon.png" type="image/gif" />
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/extracss.css" />
+    <!-- Site css -->
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- responsive css -->
+    <link rel="stylesheet" href="css/responsive.css" />
+    <!-- colors css -->
+    <link rel="stylesheet" href="css/colors1.css" />
+    <!-- custom css -->
+    <link rel="stylesheet" href="css/custom.css" />
+    <!-- wow Animation css -->
+    <link rel="stylesheet" href="css/animate.css" />
+    <!-- revolution slider css -->
+    <link rel="stylesheet" type="text/css" href="revolution/css/settings.css" />
+    <link rel="stylesheet" type="text/css" href="revolution/css/layers.css" />
+    <link rel="stylesheet" type="text/css" href="revolution/css/navigation.css" />
+    <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+          <![endif]-->
+    <style>
+                .container {
+            max-width: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 100;
+        }
+
+            .header img {
+                max-height: 60px;
+            }
+
+        .navbar {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+
+            .navbar > li {
+                list-style: none;
+                position: relative;
+            }
+
+                .navbar > li > a {
+                    text-decoration: none;
+                    color: #000;
+                    font-weight: 500;
+                    padding: 8px 0;
+                    display: inline-block;
+                    position: relative;
+                    text-transform: capitalize;
+                }
+
+                .navbar > li:hover > a {
+                    color: #007bff;
+                    border-bottom: 2px solid #007bff;
+                }
+
+            .navbar li ul {
+                display: none;
+                position: absolute;
+                background: #fff;
+                padding: 10px 0;
+                min-width: 200px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                top: 100%;
+                left: 0;
+                z-index: 100;
+            }
+
+            .navbar li:hover > ul {
+                display: block;
+            }
+
+            .navbar li ul li {
+                position: relative;
+            }
+
+                .navbar li ul li a {
+                    color: #000;
+                    text-decoration: none;
+                    padding: 8px 20px;
+                    display: block;
+                    text-transform: capitalize;
+                }
+
+                .navbar li ul li:hover > a {
+                    background: #f5f5f5;
+                }
+
+                .navbar li ul li ul {
+                    top: 0;
+                    left: 100%;
+                }
+
+        .search-icon {
+            cursor: pointer;
+        }
+
+
+
+
+        .search_container {
+            display: none;
+            position: fixed;
+            background: rgba(0, 0, 0, 0.9);
+            top: 0;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+        }
+
+            .search_container img {
+                max-height: 60px;
+                margin-bottom: 20px;
+            }
+
+        .search_box {
+            width: 80%;
+            max-width: 600px;
+        }
+
+            .search_box input {
+                width: 100%;
+                padding: 15px;
+                border: none;
+                font-size: 18px;
+            }
+
+        #searchResultList {
+            list-style: none;
+            padding: 0;
+            margin-top: 15px;
+            color: #fff;
+            text-align: left;
+        }
+
+        #close_search {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+
+        #navbar_menu ul li a {
+            text-transform: capitalize;
+        }
+
+        .header_bottom .row {
+            align-items: center;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .search-icon {
+            display: flex;
+            justify-content: right;
+            align-items: center;
+            height: 100%; /* Important for vertical centering */
+        }
+
+        #navbar_menu > ul > li > a {
+            font-weight: normal;
+        }
+
+        .home_page {
+            border-left: 8px solid #50b848;
+        }
+
+
+        @media (max-width: 991px) {
+         /*    .header_bottom .row
+
+        {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: unset;
+        } */
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+       /*  .menu_side {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        } */
+
+        .header_right {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+                position: relative;
+                
+                top: -60px;
+        }
+
+            #navbar_menu.small-screen #menu-button {
+                position: relative;
+                right: 43px;
+                float:right;
+                margin-top: 20px;
+                z-index: 9999;
+                
+            }
+
+        }
+
+
+    </style>
+
+
+
+    <link rel="stylesheet" href="assets/frontassets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/frontassets/css/style.css">
+    <link rel="stylesheet" href="assets/frontassets/css/responsive.css">
+    <link href="assets/frontassets/css/viewer.css" rel="stylesheet">
+
+    <style>
+        /* 1) Header & Menus: always on top */
+        header.header_style_1,
+        .header_bottom,
+        .menu_side,
+        #navbar_menu,
+        #navbar_menu .first-ul,
+        #navbar_menu .first-ul > li {
+            position: relative;
+            z-index: 1000000; /* super high, above sliders */
+        }
+
+            /* 2) All dropdown panels above everything */
+            #navbar_menu .first-ul li ul,
+            #navbar_menu .first-ul li ul li ul {
+                position: absolute;
+                z-index: 1000001; /* dropdown > header */
+                overflow: visible;
+            }
+
+            /* 3) Kill any accidental clipping around menu */
+            .header_bottom .container,
+            .header_bottom .row,
+            .menu_side,
+            #navbar_menu {
+                overflow: visible !important;
+            }
+
+        /* 4) Push Jssor sliders BELOW the header */
+        .jssorl-009-spin,
+        .jssorb132,
+        .jssora051,
+        .jssorb057 {
+            position: relative !important;
+            z-index: 1 !important; /* keep under the header/menu */
+        }
+
+        /* 5) Revolution/Jssor wrappers sometimes add stacking contexts */
+        .rev_slider_wrapper,
+        .rev_slider,
+        .tp-revslider-mainul {
+            z-index: 1 !important;
+            overflow: visible !important;
+        }
+
+        /* 6) Fixed badges / social should not overtake header */
+        .best_place,
+        .social.foot {
+            position: relative;
+            z-index: 2 !important;
+        }
+
+
+        /* MOBILE ONLY: solid background for 2nd/3rd level menus */
+        @media (max-width: 991px) {
+            /* ensure each dropdown paints its own white panel */
+            #navbar_menu .first-ul li ul
+
+        {
+            position: static !important;
+            display: none; /* JS toggles */
+            width: 100%;
+            background: #fff !important; /* <-- solid * b-shq9dpml3o/
+            border-top: 1px solid #eee;
+            box-shadow: none !important;
+            padding: 0;
+            margin: 0;
+            opacity: 1 !important;
+            filter: none !important;
+            backdrop-filter: none !important;
+            mix-blend-mode: normal !important;
+            isolation: isolate; /* own stacking context */
+        }
+
+        /* nested (sub-sub) menus */
+        #navbar_menu .first-ul li ul li ul {
+            position: static !important;
+            display: none; /* JS toggles */
+            background: #fff !important; /* <-- solid * b-shq9dpml3o/
+            border-top: 1px solid #f2f2f2;
+            padding-left: 14px;
+            opacity: 1 !important;
+            filter: none !important;
+            backdrop-filter: none !important;
+            mix-blend-mode: normal !important;
+            isolation: isolate;
+        }
+
+        /* paint-bg trick in case parent had opacity anywhere */
+        #navbar_menu .first-ul li > ul,
+        #navbar_menu .first-ul li > ul > li > ul {
+            position: relative;
+        }
+
+            #navbar_menu .first-ul li > ul::before,
+            #navbar_menu .first-ul li > ul > li > ul::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: #fff; /* solid painter layer */
+                z-index: 0;
+            }
+
+            #navbar_menu .first-ul li > ul * {
+                position: relative;
+                z-index: 1; /* sit above painter */
+            }
+
+        /* readable links */
+        #navbar_menu .first-ul li ul li a {
+            display: block;
+            color: #111 !important;
+            background: transparent !important;
+            padding: 12px 14px;
+            line-height: 1.35;
+            white-space: normal;
+        }
+
+        /* open states (match your JS) */
+        #navbar_menu li.open > ul {
+            display: block;
+        }
+
+            #navbar_menu li.open > ul > li.open > ul {
+                display: block;
+            }
+
+        }
+    </style>
+</head>
+<body id="default_theme" class="it_service home_page" style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif !important">
+    <!-- loader -->
+    
+    <!-- end loader -->
+    <!-- header -->
+    <header b-shq9dpml3o id="default_header" class="header_style_1">
+        <!-- header top -->
+        <!-- end header top -->
+        <!-- header bottom -->
+        <div b-shq9dpml3o class="header_bottom">
+            <div b-shq9dpml3o class="container">
+                <div b-shq9dpml3o class="row">
+                    <div b-shq9dpml3o class="col-lg-1">
+                        <!-- logo start -->
+                        <div b-shq9dpml3o class="logo"> <a b-shq9dpml3o href="Default"><img b-shq9dpml3o src="images/logos/logo.png" alt="logo" /></a> </div>
+                        <!-- logo end -->
+                    </div>
+                    <div b-shq9dpml3o class="col-lg-10" style="z-index:9999999">
+                        <!-- menu start -->
+                         <div b-shq9dpml3o class="menu_side">
+                            <div b-shq9dpml3o id="navbar_menu">
+                                <ul b-shq9dpml3o class="first-ul" style="font-weight:20">
+                                    <li b-shq9dpml3o>
+                                        <a b-shq9dpml3o class="active" href="aboutus">About Us</a>
+                                        <ul b-shq9dpml3o>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="aboutus">Overview</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="mission_vision_values">Mission, Vision, Values</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="chairman">Chairman's Journey</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="Leadership">Leadership</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="history">History</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="award">Awards and Accolades</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="lifecrystal">Life at Crystal</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="manufacturing">Manufacturing</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="regulatory">Regulatory & Registration</a></li>
+
+                                        </ul>
+                                    </li>
+
+
+                                    <li b-shq9dpml3o>
+                                        <a b-shq9dpml3o href="#">Our Business</a>
+                                        <ul b-shq9dpml3o>
+                                            <li b-shq9dpml3o>
+                                                <a b-shq9dpml3o href="domesticsales">Domestic Sales</a>
+                                                <ul b-shq9dpml3o style="width:80%">
+                                                    <li b-shq9dpml3o>
+                                                        <a b-shq9dpml3o href="cropprotection">Crop Protection</a>
+                                                        <ul b-shq9dpml3o>
+                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='crpproduct?pid=1'>insecticide</a></li>
+                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='crpproduct?pid=2'>Herbicide</a></li>
+                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='crpproduct?pid=3'>Fungicide</a></li>
+                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='crpproduct?pid=4'>seed Trearment</a></li>
+                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='crpproduct?pid=5'>Plant Nutrition</a></li>
+                                                        </ul>
+
+                                                    </li>
+                                                    <li b-shq9dpml3o>
+                                                        <a b-shq9dpml3o href="seed">Seeds</a>
+                                                        <ul b-shq9dpml3o style="width:80%">
+                                                            <li b-shq9dpml3o>
+                                                                <a b-shq9dpml3o href="#">Field Crops</a>
+                                                                <ul b-shq9dpml3o style="width:80%">
+                                                                    <li b-shq9dpml3o><a b-shq9dpml3o href='Cotton'>Cotton</a></li>
+                                                                    <li b-shq9dpml3o><a b-shq9dpml3o href='Pearl_millet'>Pearl millet</a></li>
+                                                                    <li b-shq9dpml3o><a b-shq9dpml3o href='Maize'>Maize</a></li>
+                                                                    <li b-shq9dpml3o><a b-shq9dpml3o href='Fodder'>Fodder</a></li>
+                                                                    <li b-shq9dpml3o><a b-shq9dpml3o href='Jowar'>Jowar</a></li>
+                                                                    <li b-shq9dpml3o><a b-shq9dpml3o href='Mustard'>Mustard</a></li>
+                                                            <li b-shq9dpml3o>
+                                                                <a b-shq9dpml3o href='paddy'>Paddy</a>
+                                                                <ul b-shq9dpml3o>
+                                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='Hybrid_Paddy'>Hybrid Paddy</a></li>
+                                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='Research_Paddy'>Research Paddy</a></li>
+                                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='Basmati_Paddy'>Basmati Paddy</a></li>
+                                                                </ul>
+                                                            </li>
+                                                                    <li b-shq9dpml3o><a b-shq9dpml3o href='Wheat'>Wheat</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='https://iandbseeds.com/vegetables' target="_blank">Vegetables</a></li>
+                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='https://iandbseeds.com/fruits' target="_blank">Fruits</a></li>
+                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='https://iandbseeds.com/flowers' target="_blank">Flowers</a></li>
+
+                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='Crystal_Seed_Division'>Crystal Seed Division</a></li>
+
+                                                        </ul>
+
+                                                    </li>
+                                                    <li b-shq9dpml3o>
+                                                        <a b-shq9dpml3o href="agri_equipments">Farm Solution</a>
+                                                        <ul b-shq9dpml3o>
+                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='sprayer?pid=1'>Manual Sprayer</a></li>
+                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='sprayer?pid=2'>Battery Sprayers</a></li>
+                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='sprayer?pid=3'>Engine Sprayers</a></li>
+                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='sprayer?pid=4'>Harvesters</a></li>
+                                                            <li b-shq9dpml3o><a b-shq9dpml3o href='sprayer?pid=5'>Self Propelled Sprayer</a></li>
+                                                        </ul>
+
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li b-shq9dpml3o>
+                                                <a b-shq9dpml3o href="corporate">Corporate Sales</a>
+
+                                                <ul b-shq9dpml3o>
+                                                    <li b-shq9dpml3o><a b-shq9dpml3o href="insecticide">insecticide</a></li>
+                                                    <li b-shq9dpml3o><a b-shq9dpml3o href="herbicide">Herbicide</a></li>
+                                                    <li b-shq9dpml3o><a b-shq9dpml3o href="fungcide">Fungicide</a></li>
+                                                    <li b-shq9dpml3o><a b-shq9dpml3o href="plantnutrition">Plant Growth Regulator</a></li>
+
+                                                </ul>
+                                            </li>
+                                            <li b-shq9dpml3o>
+                                                <a b-shq9dpml3o href="exports">International Sales</a>
+                                                <ul b-shq9dpml3o>
+                                                    <li b-shq9dpml3o><a b-shq9dpml3o href='internationalc?pid=1'>insecticide</a></li>
+                                                    <li b-shq9dpml3o><a b-shq9dpml3o href='internationalc?pid=2'>Herbicide</a></li>
+                                                    <li b-shq9dpml3o><a b-shq9dpml3o href='internationalc?pid=3'>Fungicide</a></li>
+                                                    <li b-shq9dpml3o><a b-shq9dpml3o href='internationalc?pid=5'>Plant Growth Regulator</a></li>
+
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+
+                                    <li b-shq9dpml3o>
+                                        <a b-shq9dpml3o href="#">R & D</a>
+                                        <ul b-shq9dpml3o>
+                                            <li b-shq9dpml3o>
+                                                <a b-shq9dpml3o href="krdc">KRDC</a>
+                                            </li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="field_biological_research">Field Research</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="seed_breeding">Seed Breeding</a></li>
+                                        </ul>
+                                    </li>
+                                    <li b-shq9dpml3o>
+                                        <a b-shq9dpml3o href="#">Sustainability</a>
+                                        <ul b-shq9dpml3o>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="csr">CSR</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="esgjourney">ESG Journey</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="eccompliance">EC Compliance</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="certification">Certification Acuired</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="farmer_training">Farmer Engagements</a></li>
+                                        </ul>
+                                    </li>
+
+
+                                    <li b-shq9dpml3o>
+                                        <a b-shq9dpml3o href="investor-relations">Investor Relations</a>
+                                    </li>
+
+                                    <li b-shq9dpml3o>
+                                        <a b-shq9dpml3o href="#">Media Centre</a>
+                                        <ul b-shq9dpml3o>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="pressrelease">Press Release</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="product_launch_event">Events</a></li>
+                                        </ul>
+                                    </li>
+                                    <li b-shq9dpml3o>
+                                        <a b-shq9dpml3o href="corporate_office">Contact Us</a>
+                                        <ul b-shq9dpml3o>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="registered_office">Registered Office</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="corporate_office">Corporate Office</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="zonal_office">Branch Offices</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="overseas_presence">Global Presence</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="corporate_office">Enquiry Form</a></li>
+                                            <li b-shq9dpml3o><a b-shq9dpml3o href="career">Careers</a></li>
+                                        </ul>
+                                    </li>
+
+
+                                </ul>
+
+
+                            </div>
+
+
+                        </div>
+                        <!-- menu end -->
+                        
+                    </div>
+
+
+                    <div b-shq9dpml3o class="col-lg-1">
+                        <div b-shq9dpml3o class="menu_side">
+                            <div b-shq9dpml3o class="header_right">
+                                <ul b-shq9dpml3o style="display: flex; align-items: center;">
+                                    <li b-shq9dpml3o>
+                                        <a b-shq9dpml3o class="desktop_srch" href="javascript:void(0)">
+                                            <img b-shq9dpml3o src="assets/frontassets/images/search_icon.png">
+                                        </a>
+                                    </li>
+                                    <li b-shq9dpml3o>
+                                        <img b-shq9dpml3o src="assets/frontassets/images/devider.png">
+                                    </li>
+
+                                </ul>
+                            </div>
+                    <div b-shq9dpml3o class="search_container">
+                        <span b-shq9dpml3o id="close_search">&#10006;</span>
+                        <a b-shq9dpml3o href="Default">
+                            <img b-shq9dpml3o src="images/logos/logo.png" alt="Logo" />
+                        </a>
+                        <div b-shq9dpml3o class="search_box">
+                            <input b-shq9dpml3o type="text" id="searchString" placeholder="Search..." />
+                            <ul b-shq9dpml3o id="searchResultList"></ul>
+                        </div>
+                    </div>
+
+
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+                    <script>
+                        $(document).ready(function(){
+                            $(".search-icon, .desktop_srch, #mobile_search_icon").click(function(){
+                                $(".search_container").slideDown();
+                                $("#searchString").focus();
+                            });
+                            $("#close_search").click(function(){
+                                $(".search_container").slideUp();
+                            });
+
+                            $("#searchString").keyup(function(){
+                                var searchString = $(this).val();
+                                if(searchString.length > 1){
+                                    $.ajax({
+                                        url: "/SearchSuggestions",
+                                        data: { term: searchString },
+                                        success: function(data){
+                                            var list = "";
+                                            $.each(data, function(i, item){
+                                                list += "<li><a href='"+item.url+"'>"+item.title+"</a></li>";
+                                            });
+                                            $("#searchResultList").html(list).show();
+                                        }
+                                    });
+                                } else {
+                                    $("#searchResultList").empty().hide();
+                                }
+                            });
+
+                            $(document).click(function(e){
+                                if (!$(e.target).closest('#searchResultList, #searchString').length && !$(e.target).closest('.search-icon, .desktop_srch, #mobile_search_icon').length){
+                                    $("#searchResultList").hide();
+                                }
+                            });
+                        });
+                    </script>
+
+
+
+                </div>
+            </div>
+        </div>
+        <!-- header bottom end -->
+    </header>
+    <!-- end header -->
+ 
+    <main b-shq9dpml3o role="main" class="pb-3">
+            <script src="js/jssor.slider-28.0.0.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+	window.jssor_4_slider_init = function () {
+
+		var jssor_4_options = {
+			$AutoPlay: 1,
+			$AutoPlaySteps: 1,
+			$SlideDuration: 160,
+			$SlideWidth: 350,
+			$SlideSpacing: 20,
+			$ArrowNavigatorOptions: {
+				$Class: $JssorArrowNavigator$,
+				$Steps: 1
+			},
+			$BulletNavigatorOptions: {
+				$Class: $JssorBulletNavigator$,
+				$SpacingX: 16,
+				$SpacingY: 16
+			}
+		};
+
+		var jssor_4_slider = new $JssorSlider$("jssor_4", jssor_4_options);
+
+		/*#region responsive code begin*/
+
+		var MAX_WIDTH = 1200;
+
+		function ScaleSlider() {
+			var containerElement = jssor_4_slider.$Elmt.parentNode;
+			var containerWidth = containerElement.clientWidth;
+
+			if (containerWidth) {
+
+				var expectedWidth = Math.min(MAX_WIDTH || containerWidth, containerWidth);
+
+				jssor_4_slider.$ScaleWidth(expectedWidth);
+			}
+			else {
+				window.setTimeout(ScaleSlider, 30);
+			}
+		}
+
+		ScaleSlider();
+
+		$Jssor$.$AddEvent(window, "load", ScaleSlider);
+		$Jssor$.$AddEvent(window, "resize", ScaleSlider);
+		$Jssor$.$AddEvent(window, "orientationchange", ScaleSlider);
+		/*#endregion responsive code end*/
+	};
+</script>
+
+<link rel="stylesheet" href="css/desktopcss.css" />
+
+
+
+
+
+<script type="text/javascript">
+	window.jssor_5_slider_init = function () {
+
+		var jssor_5_SlideoTransitions = [
+			[{ b: -1, d: 1, ls: 0.5 }, { b: 0, d: 1000, y: 5, e: { y: 6 } }],
+			[{ b: -1, d: 1, ls: 0.5 }, { b: 200, d: 1000, y: 25, e: { y: 6 } }],
+			[{ b: -1, d: 1, ls: 0.5 }, { b: 400, d: 1000, y: 45, e: { y: 6 } }],
+			[{ b: -1, d: 1, ls: 0.5 }, { b: 600, d: 1000, y: 65, e: { y: 6 } }],
+			[{ b: -1, d: 1, ls: 0.5 }, { b: 800, d: 1000, y: 85, e: { y: 6 } }],
+			[{ b: -1, d: 1, ls: 0.5 }, { b: 500, d: 1000, y: 195, e: { y: 6 } }],
+			[{ b: 0, d: 2000, y: 30, e: { y: 3 } }],
+			[{ b: -1, d: 1, rY: -15, tZ: 100 }, { b: 0, d: 1500, y: 30, o: 1, e: { y: 3 } }],
+			[{ b: -1, d: 1, rY: -15, tZ: -100 }, { b: 0, d: 1500, y: 100, o: 0.8, e: { y: 3 } }],
+			[{ b: 500, d: 1500, o: 1 }],
+			[{ b: 0, d: 1000, y: 380, e: { y: 6 } }],
+			[{ b: 300, d: 1000, x: 80, e: { x: 6 } }],
+			[{ b: 300, d: 1000, x: 330, e: { x: 6 } }],
+			[{ b: -1, d: 1, r: -110, sX: 5, sY: 5 }, { b: 0, d: 2000, o: 1, r: -20, sX: 1, sY: 1, e: { o: 6, r: 6, sX: 6, sY: 6 } }],
+			[{ b: 0, d: 600, x: 150, o: 0.5, e: { x: 6 } }],
+			[{ b: 0, d: 600, x: 1140, o: 0.6, e: { x: 6 } }],
+			[{ b: -1, d: 1, sX: 5, sY: 5 }, { b: 600, d: 600, o: 1, sX: 1, sY: 1, e: { sX: 3, sY: 3 } }]
+		];
+
+		var jssor_5_options = {
+			$AutoPlay: 1,
+			$LazyLoading: 1,
+			$CaptionSliderOptions: {
+				$Class: $JssorCaptionSlideo$,
+				$Transitions: jssor_5_SlideoTransitions
+			},
+			$ArrowNavigatorOptions: {
+				$Class: $JssorArrowNavigator$
+			},
+			$BulletNavigatorOptions: {
+				$Class: $JssorBulletNavigator$,
+				$SpacingX: 20,
+				$SpacingY: 20
+			}
+		};
+
+		var jssor_5_slider = new $JssorSlider$("jssor_5", jssor_5_options);
+
+		/*#region responsive code begin*/
+
+		var MAX_WIDTH = 3000;
+
+		function ScaleSlider() {
+			var containerElement = jssor_5_slider.$Elmt.parentNode;
+			var containerWidth = containerElement.clientWidth;
+
+			if (containerWidth) {
+
+				var expectedWidth = Math.min(MAX_WIDTH || containerWidth, containerWidth);
+
+				jssor_5_slider.$ScaleWidth(expectedWidth);
+			}
+			else {
+				window.setTimeout(ScaleSlider, 30);
+			}
+		}
+
+		ScaleSlider();
+
+		$Jssor$.$AddEvent(window, "load", ScaleSlider);
+		$Jssor$.$AddEvent(window, "resize", ScaleSlider);
+		$Jssor$.$AddEvent(window, "orientationchange", ScaleSlider);
+		/*#endregion responsive code end*/
+	};
+</script>
+<link href="//fonts.googleapis.com/css?family=Roboto+Condensed:300,300italic,regular,italic,700,700italic&subset=latin-ext,greek-ext,cyrillic-ext,greek,vietnamese,latin,cyrillic" rel="stylesheet" type="text/css" />
+
+
+
+<svg viewbox="0 0 0 0" width="0" height="0" style="display:block;position:relative;left:0px;top:0px;">
+	<defs>
+		<filter id="jssor_5_flt_1" x="-50%" y="-50%" width="200%" height="200%">
+			<feGaussianBlur stddeviation="4"></feGaussianBlur>
+		</filter>
+		<radialGradient id="jssor_5_grd_2">
+			<stop offset="0" stop-color="#fff"></stop>
+			<stop offset="1" stop-color="#000"></stop>
+		</radialGradient>
+		<mask id="jssor_5_msk_3">
+			<path fill="url(#jssor_5_grd_2)" d="M600,0L600,400L0,400L0,0Z" x="0" y="0" style="position:absolute;overflow:visible;"></path>
+		</mask>
+	</defs>
+</svg>
+<div id="jssor_5" style="position:relative;margin:0 auto;top:0px;left:0px;width:1600px;height:700px;overflow:hidden;visibility:hidden;">
+	<!-- Loading Screen -->
+	<div data-u="loading" class="jssorl-009-spin" style="position:absolute;top:0px;left:0px;width:100%;height:100%;text-align:center;background-color:rgba(0,0,0,0.7);">
+		<img style="margin-top:-19px;position:relative;top:50%;width:38px;height:38px;" src="img/spin.svg" />
+	</div>
+	<div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:1600px;height:700px;overflow:hidden;">
+		<div>
+			<img data-u="image" data-src="images/banner/slider01.jpg" />
+
+		</div>
+		<div>
+			<img data-u="image" data-src="images/banner/slider02.jpg" />
+
+		</div>
+
+		<div>
+			<img data-u="image" data-src="images/banner/slider03.jpg" />
+
+		</div>
+
+	</div>
+	<!-- Bullet Navigator -->
+	<div data-u="navigator" class="jssorb132" style="position:absolute;bottom:24px;right:16px;" data-autocenter="1" data-scale="0.5" data-scale-bottom="0.75">
+		<div data-u="prototype" class="i" style="width:12px;height:12px;">
+			<svg viewbox="0 0 16000 16000" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+				<circle class="b" cx="8000" cy="8000" r="5800"></circle>
+			</svg>
+		</div>
+	</div>
+	<!-- Arrow Navigator -->
+</div>
+<script type="text/javascript">
+	jssor_5_slider_init();
+</script>
+
+
+
+
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12" style="background-color:#ef4123;color:white;text-align:center">
+
+			<div class="banner_content home">
+				<h2 style="color:white">Safe and environmentally<br> responsible production</h2>
+				<p style="color:white">Supplying environment friendly products </p>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+<div class="container">
+	<div class="glance_container">
+		<div class="glance_box" data-aos="fade-down" data-aos-duration="800">
+			<div class="glance_innner">
+				<h3>Crystal at a Glance</h3>
+				<p><span>We take full ownership and accountability of our work.</span> We encourage discussion and transactions with customers and with complete respect and mutual trust.</p>
+				<a href="aboutus">about us</a>
+			</div>
+		</div>
+		<div class="glance_box">
+			<div class="expreince_box">
+				<h1><span class="counter">30</span>+</h1>
+				<h3><span>YEARS</span> OF PROVEN EXPERIENCE</h3>
+			</div>
+		</div>
+
+		<div class="glance_box">
+			<div class="glance_top">
+				<!-- <h1><span class="counter">22</span></h1> -->
+				<h3><span>Product</span> Patents Filed in all key segments</h3>
+			</div>
+			<div class="glance_bottom">
+				<h1><span class="counter">13,285</span></h1>
+				<h3 style="margin-top:25px"><span>Distribution</span> Partners In India</h3>
+			</div>
+		</div>
+		<div class="glance_box">
+			<div class="expreince_box">
+				<h1><span class="counter">70</span>+</h1>
+				<h3><span>Brands</span> Across segments</h3>
+			</div>
+			<h4>QUALITY, TRUST AND INNOVATION</h4>
+		</div>
+	</div>
+</div>
+
+
+<div class="whatwedo_bg">
+	<div class="container">
+		<div class="whatdo_box">
+			<h3>What We Do</h3>
+			<h4>A wide spectrum of agriculturally important agrochemicals.</h4>
+			<ul>
+				<li data-aos="fade-right" data-aos-duration="800">
+					<img src="assets/frontassets/images/protection_01.jpg">
+					<div class="overlay_content">
+						<h2 style="font-size:25px">Crop Protection</h2>
+						<a href="cropprotection">know more</a>
+					</div>
+				</li>
+				<li data-aos="fade-down" data-aos-duration="800">
+					<img src="assets/frontassets/images/protection_02.jpg">
+					<div class="overlay_content">
+						<h2 style="font-size:25px">Seeds</h2>
+						<a href="seed">know more</a>
+					</div>
+				</li>
+				<li data-aos="fade-left" data-aos-duration="800">
+					<img src="assets/frontassets/images/protection_03.jpg">
+					<div class="overlay_content">
+						<h2 style="font-size:25px">Agri Equipments</h2>
+						<a href="agri_equipments">know more</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+
+
+<script>
+	function openCity(evt, cityName) {
+		var i, tabcontent, tablinks;
+		tabcontent = document.getElementsByClassName("tabcontent");
+		for (i = 0; i < tabcontent.length; i++) {
+			tabcontent[i].style.display = "none";
+		}
+		tablinks = document.getElementsByClassName("tablinks");
+		for (i = 0; i < tablinks.length; i++) {
+			tablinks[i].className = tablinks[i].className.replace(" active", "");
+		}
+		document.getElementById(cityName).style.display = "block";
+		evt.currentTarget.className += " active";
+	}
+
+	// Get the element with id="defaultOpen" and click on it
+	document.getElementById("defaultOpen").click();
+
+
+
+</script>
+
+
+<div class="global_bg">
+	<div class="container">
+		<div class="global_box">
+			<h3>Crystal's Presence</h3>
+			<div class="global_left aos-init aos-animate" data-aos="fade-right" data-aos-duration="800">
+				<div class="tab">
+					<button class="tablinks active" onclick="openCity(event, 'Worldwide')" id="defaultOpen"><span>Worldwide</span></button>
+					<button class="tablinks" onclick="openCity(event, 'India')"><span>India</span></button>
+				</div>
+			</div>
+			<div class="global_right aos-init aos-animate" data-aos="fade-left" data-aos-duration="800">
+				<div id="Worldwide" class="tabcontent" style="display: block;">
+					<div class="map_sec pull-left">
+						<img src="images/wouldwid_map.png">
+					</div>
+					<div class="map_detail pull-right">
+						<div class="precence_box" style="margin-bottom:50px">
+							<h1>35</h1>
+							<p>Export Presence in worldwide</p>
+						</div>
+						<ul>
+							<li><a href="zonal_office" contenteditable="false" style="cursor: pointer;"><h4 style="width:100%"><img src="images/crystal_icon.png">&nbsp;&nbsp; Crystal Offices</h4></a></li>
+							<li><a href="overseas_presence" contenteditable="false" style="cursor: pointer;"><h4 style="width:100%">&nbsp;&nbsp;<img src="images/location_icon.png">&nbsp;&nbsp;&nbsp;&nbsp; Export Presence</h4></a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div id="India" class="tabcontent" style="display: none;">
+					<div class="map_sec1 pull-left">
+						<img src="images/india_map.png" style="height:580px">
+					</div>
+					<div class="india_map_p1 pull-right">
+						<ul class="india_map_p">
+							<li>~5,000 distribution partners across India</li>
+							<li>500+ sales &amp; marketing team</li>
+							<li>1000+ Crop advisors</li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container">
+	<div class="export_container">
+		<div class="export_left aos-init aos-animate" data-aos="fade-right" data-aos-duration="800">
+			<div class="Innovation_box">
+				<h3>Innovation</h3>
+				<p>We develop new molecules and formulations.</p>
+				<a class="more_btn" href="krdc" contenteditable="false" style="cursor: pointer;">Know More</a>
+			</div>
+			<img src="assets/frontassets/images/export_img.jpg">
+		</div>
+		<div class="export_left aos-init aos-animate" data-aos="fade-left" data-aos-duration="800">
+			<div class="export_top">
+				<img src="assets/frontassets/images/export_icon.png">
+			</div>
+			<div class="export_bottom">
+				<div class="Manufacturing_box">
+					<h3>Manufacturing</h3>
+					<p>We are committed to provide high quality Agrochemicals, consistently.</p>
+					<a class="more_btn" href="manufacturing" contenteditable="false" style="cursor: pointer;">Know More</a>
+				</div>
+				<div class="export_box">
+					<h3>Exports</h3>
+					<p>Crystal has developed its product registrations worldwide.</p>
+					<a class="more_btn" href="exports" contenteditable="false" style="cursor: pointer;">know more</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<div class="product_container">
+	<div class="container">
+		<div class="product_sec">
+			<h3>Key Products</h3>
+			<div id="jssor_4" style="position:relative;margin:0 auto;top:0px;left:0px;width:1200px;height:500px;overflow:hidden;visibility:hidden;">
+				<!-- Loading Screen -->
+				<div data-u="loading" class="jssorl-009-spin" style="position:absolute;top:0px;left:0px;width:100%;height:100%;text-align:center;background-color:rgba(0,0,0,0.7);">
+					<img style="margin-top:-19px;position:relative;top:50%;width:38px;height:38px;" src="img/spin.svg" />
+				</div>
+				<div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:1200px;height:500px;overflow:hidden;">
+
+
+					<div>
+						<div class="product_box">
+							<div class="product_detail_top">
+								<div class="product_detail">
+									<span>Brand</span>
+									<h3>Abacin</h3>
+								</div>
+							</div>
+							<div class="product_item_outer">
+								<div class="product_item">
+									<a href="crdproductdetail?mid=1&pid=1"><img src="assets/frontassets/images/product01.png"></a>
+								</div>
+							</div>
+							<div class="product_detail">
+								<span>Brand</span>
+								<h3>Abacin</h3>
+							</div>
+						</div>
+					</div>
+					<div>
+						<div class="product_box">
+							<div class="product_detail_top">
+								<div class="product_detail">
+									<span>Brand</span>
+									<h3>Nutrozen</h3>
+								</div>
+							</div>
+							<div class="product_item_outer">
+								<div class="product_item">
+									<a href="crdproductdetail?mid=5&pid=75"><img src="assets/frontassets/images/product02.png"></a>
+								</div>
+							</div>
+							<div class="product_detail">
+								<span>Brand</span>
+								<h3>Nutrozen</h3>
+							</div>
+						</div>
+					</div>
+					<div>
+						<div class="product_box">
+							<div class="product_detail_top">
+								<div class="product_detail">
+									<span>Brand</span>
+									<h3>Apex50</h3>
+								</div>
+							</div>
+							<div class="product_item_outer">
+								<div class="product_item">
+									<a href="crdproductdetail?mid=1&pid=2"><img src="assets/frontassets/images/product03.png"></a>
+								</div>
+							</div>
+							<div class="product_detail">
+								<span>Brand</span>
+								<h3>Apex50</h3>
+							</div>
+						</div>
+					</div>
+
+					<div>
+						<div class="product_box">
+							<div class="product_detail_top">
+								<div class="product_detail">
+									<span>Brand</span>
+									<h3>Abacin</h3>
+								</div>
+							</div>
+							<div class="product_item_outer">
+								<div class="product_item">
+									<a href="crdproductdetail?mid=1&pid=1"><img src="assets/frontassets/images/product01.png"></a>
+								</div>
+							</div>
+							<div class="product_detail">
+								<span>Brand</span>
+								<h3>Abacin</h3>
+							</div>
+						</div>
+					</div>
+					<div>
+						<div class="product_box">
+							<div class="product_detail_top">
+								<div class="product_detail">
+									<span>Brand</span>
+									<h3>Nutrozen</h3>
+								</div>
+							</div>
+							<div class="product_item_outer">
+								<div class="product_item">
+									<a href="crdproductdetail?mid=5&pid=75"><img src="assets/frontassets/images/product02.png"></a>
+								</div>
+							</div>
+							<div class="product_detail">
+								<span>Brand</span>
+								<h3>Nutrozen</h3>
+							</div>
+						</div>
+					</div>
+					<div>
+						<div class="product_box">
+							<div class="product_detail_top">
+								<div class="product_detail">
+									<span>Brand</span>
+									<h3>Apex50</h3>
+								</div>
+							</div>
+							<div class="product_item_outer">
+								<div class="product_item">
+									<a href="crdproductdetail?mid=1&pid=2"><img src="assets/frontassets/images/product03.png"></a>
+								</div>
+							</div>
+							<div class="product_detail">
+								<span>Brand</span>
+								<h3>Apex50</h3>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- Bullet Navigator -->
+					<div data-u="navigator" class="jssorb057" style="position:absolute;bottom:12px;right:12px;" data-autocenter="1" data-scale="0.5" data-scale-bottom="0.75">
+						<div data-u="prototype" class="i" style="width:14px;height:14px;">
+							<svg viewbox="0 0 16000 16000" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+								<circle class="b" cx="8000" cy="8000" r="5000"></circle>
+							</svg>
+						</div>
+					</div>
+					<!-- Arrow Navigator -->
+
+				</div>
+				<script type="text/javascript">
+					jssor_4_slider_init();
+				</script>
+
+
+				<h4>Click & Drag Slider For More</h4>
+				<!--<a class="view_btn" href="#">view all products</a>-->
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+	<div class="container" style="margin-top:200px">
+		<div class="event_header">
+			<div class="news-event aos-init" data-aos="fade-right" data-aos-duration="800">
+				<h4>News &amp; Events</h4>
+				<h3>Stay tuned</h3>
+			</div>
+			<div class="news-event aos-init" data-aos="fade-left" data-aos-duration="800">
+				<ul>
+					<li><a href="reward_recognition_event" contenteditable="false" style="cursor: pointer;">Reward &amp; Recognition</a></li>
+					<li><a href="pressrelease" contenteditable="false" style="cursor: pointer;">Press Release</a></li>
+
+				</ul>
+			</div>
+		</div>
+
+		<div class="event_gallery">
+
+			<div class="event_detail aos-init" data-aos="fade-right" data-aos-duration="800">
+				<a href="pressrelease" contenteditable="false" style="cursor: pointer;">
+					<img src="assets/frontassets/images/gramoxone-acquisition.jpg">
+				</a>
+				<div class="event_overlay" style="padding-top:11%;">
+					<a href="pressrelease" contenteditable="false" style="cursor: pointer;">event</a>
+					<h3 style="font-size:18px; padding-right:0;">With successful acquisition of trademark Gramoxone, Crystal expands its presence into the herbicide category.</h3>
+				</div>
+			</div>
+
+
+
+			<div class="event_detail aos-init" data-aos="fade-left" data-aos-duration="800">
+				<div class="event_top">
+					<div class="event_content" style="padding: 5px 5px 5px;">
+						<h4 style="font-size: 16px; color: #1a2f80; line-height: 24px; font-weight: 500; margin: 15px 0 20px;">Ankur Aggarwal appointed as the Vice Chairman of CropLife India!</h4>
+						<img data-original="" src="images/news/1702638557_Ankur-Aggarwal-vice-chairmain.jpg">
+
+
+					</div>
+					<div class="event_content" style="padding: 5px 5px 5px;">
+
+						<h4 style="font-size: 16px; color: #1a2f80; line-height: 24px; font-weight: 500; margin: 15px 0 20px;">Crystal Crop Protection Limited is thrilled to...</h4>
+						<img data-original="" src="assets/frontassets/images/IMG_9266-new-th.jpg">
+
+
+					</div>
+				</div>
+
+				<div class="event_top">
+
+					<div class="event_content" style="padding: 5px 5px 5px;">
+						<img src="assets/frontassets/images/Ankur-Aggarwal-8jan24-th1.jpg">
+						<div class="event_overlay">
+							<a href="reward_recognition_event" style="margin: 0px; cursor: pointer;" contenteditable="false">event</a>
+							<h4 class="crd">Ankur Aggarwal, our Managing Director, has been honoured with the prestigious title of CEO of the Year 2023 by Agriculture Today Group!</h4>
+						</div>
+					</div>
+
+					<div class="event_content" style="padding: 5px 5px 5px;">
+						<img src="assets/frontassets/images/event02-new.jpg">
+						<div class="event_overlay">
+							<a href="reward_recognition_event" style="margin: 0px; cursor: pointer;" contenteditable="false">event</a>
+							<h4 class="crd">Reelection of Mr. N K Aggarwal as the Chairman of PHDCCI Membership Desk for 2023-24</h4>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!--End of Event top-->
+
+		</div>
+
+	</div>
+	<div class="modal fade main" id="myModal" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="main-video-box">
+						<iframe width="450" height="450" src="https://www.youtube.com/embed/6EVXTdqWGtU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+    </main>
+    <!-- footer -->
+   
+    <div b-shq9dpml3o class="contact_bg">
+        <div b-shq9dpml3o class="container">
+            <div b-shq9dpml3o class="contact_box" data-aos="fade-down" data-aos-duration="800">
+                <a b-shq9dpml3o href="registered_office">contact us</a>
+            </div>
+        </div>
+    </div>
+    <div b-shq9dpml3o class="footer_container">
+        <div b-shq9dpml3o class="container">
+            <div b-shq9dpml3o class="footer_box">
+                <img b-shq9dpml3o src="assets/frontassets/images/star_img.png">
+            </div>
+            <div b-shq9dpml3o class="cnt_box">
+                <ul b-shq9dpml3o>
+                    <li b-shq9dpml3o>Tel:<a b-shq9dpml3o href="tel:1149007100">+91-11-4900-7100</a></li>
+                    <li b-shq9dpml3o>Fax:<a b-shq9dpml3o href="#">+91-11-4900-7200</a></li>
+                    <li b-shq9dpml3o>Email:<a b-shq9dpml3o href="mailto:info@crystalcrop.com">info@crystalcrop.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div b-shq9dpml3o class="footer_bottom crystal-policy-footer">
+            <div b-shq9dpml3o class="container">
+                <div b-shq9dpml3o class="crystal-footer-row">
+                    <div b-shq9dpml3o class="footer_copyright crystal-copy-text">
+                        <p b-shq9dpml3o>© 2026 Crystal Crop Protection Ltd. All rights reserved.</p>
+                    </div>
+
+                    <div b-shq9dpml3o class="crystal-footer-policy-links">
+                       <a b-shq9dpml3o href="/privacypolicy">Privacy Policy</a>
+                        <a b-shq9dpml3o href="/disclaimer">Disclaimer</a>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .crystal-policy-footer {
+                position: relative;
+                z-index: 50;
+                padding: 16px 0;
+            }
+
+            .crystal-footer-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 18px;
+                flex-wrap: wrap;
+            }
+
+            .crystal-copy-text p {
+                margin: 0;
+            }
+
+            .crystal-footer-policy-links {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                gap: 8px 16px;
+                flex-wrap: wrap;
+                position: relative;
+                z-index: 999;
+            }
+
+            .crystal-footer-policy-links a {
+                color: #ffffff !important;
+                text-decoration: none !important;
+                font-size: 14px;
+                line-height: 1.4;
+                display: inline-block;
+                position: relative;
+                z-index: 1000;
+                pointer-events: auto;
+            }
+
+            .crystal-footer-policy-links a:hover {
+                color: #d7f7c2 !important;
+                text-decoration: underline !important;
+            }
+
+            @media (max-width: 767px) {
+                .crystal-footer-row {
+                    justify-content: center;
+                    text-align: center;
+                }
+
+                .crystal-footer-policy-links {
+                    justify-content: center;
+                    gap: 8px 12px;
+                }
+
+                .crystal-footer-policy-links a {
+                    font-size: 13px;
+                }
+            }
+        </style>
+
+
+
+        <style type="text/css">
+            .best_place{position: fixed;
+            top: 130px;
+            right: 5px;
+            color: #ffffff;
+                z-index: inherit;
+            }
+            .best_place img{    height: 160px;
+            background: #fff;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            padding: 5px;}
+        </style>
+        <div b-shq9dpml3o class="social foot">
+            <div b-shq9dpml3o class="social foot" style="bottom:50px">
+
+
+                <ul b-shq9dpml3o>
+                    <li b-shq9dpml3o><a b-shq9dpml3o href="https://www.facebook.com/CrystalCropProtection/" target="_blank"><img b-shq9dpml3o src="assets/frontassets/images/facebook.png"></a></li>
+                    <li b-shq9dpml3o><a b-shq9dpml3o href="https://twitter.com/CrystalCrop1" target="_blank"><img b-shq9dpml3o src="assets/frontassets/images/twiter.png"></a></li>
+                    <li b-shq9dpml3o><a b-shq9dpml3o href="https://www.linkedin.com/company/crystalcropprotectionltd" target="_blank"><img b-shq9dpml3o src="assets/frontassets/images/linkedin.png"></a></li>
+                    <li b-shq9dpml3o><a b-shq9dpml3o href="https://www.instagram.com/crystalcropprotection_/" target="_blank"><img b-shq9dpml3o src="assets/frontassets/images/instagram.png"></a></li>
+                    <li b-shq9dpml3o><a b-shq9dpml3o href="https://www.youtube.com/crystalcrop/" target="_blank"><img b-shq9dpml3o src="assets/frontassets/images/youtube.png"></a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- end footer -->
+        <!-- js section -->
+<!-- js section -->
+<script src="js/jquery.min.js"></script>
+
+<!-- Bootstrap 4 needs Popper (agar tumhare js/bootstrap.min.js me bundle nahi hai) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+<script src="js/bootstrap.min.js"></script>
+
+<!-- menu js -->
+<script src="js/menumaker.js"></script>
+
+<!-- wow animation -->
+<script src="js/wow.js"></script>
+
+<!-- custom js -->
+<script src="js/custom.js"></script>
+
+<!-- revolution js files -->
+<script src="revolution/js/jquery.themepunch.tools.min.js"></script>
+<script src="revolution/js/jquery.themepunch.revolution.min.js"></script>
+<script src="revolution/js/extensions/revolution.extension.actions.min.js"></script>
+<script src="revolution/js/extensions/revolution.extension.carousel.min.js"></script>
+<script src="revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
+<script src="revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+<script src="revolution/js/extensions/revolution.extension.migration.min.js"></script>
+<script src="revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+<script src="revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+<script src="revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+<script src="revolution/js/extensions/revolution.extension.video.min.js"></script>
+
+<script src="assets/frontassets/js/jquery.bxslider.min.js"></script>
+<script src="assets/frontassets/js/viewer.js"></script>
+<script src="/assets/frontassets/js/main.js"></script>
+
+        
+
+</body>
+</html>
