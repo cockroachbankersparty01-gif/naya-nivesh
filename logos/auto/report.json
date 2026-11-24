@@ -132,7 +132,10 @@
  },
  "jioplatforms": {
   "name": "Jio Platforms",
-  "site": null
+  "site": null,
+  "file": "logos/auto/jioplatforms.png",
+  "url": "https://www.gmpipowatch.in/uploads/ipos/jio-platforms.png",
+  "src": "ipo-page"
  },
  "parashealthcare": {
   "name": "Paras Healthcare",
@@ -237,7 +240,10 @@
  },
  "nityasgemsjewellery": {
   "name": "Nityas Gems & Jewellery",
-  "site": null
+  "site": null,
+  "file": "logos/auto/nityasgemsjewellery.png",
+  "url": "https://www.gmpipowatch.in/uploads/ipos/nityas-gems.png",
+  "src": "ipo-page"
  },
  "omaraventures": {
   "name": "Omara Ventures",
@@ -301,7 +307,10 @@
  },
  "acmeuniversalsafezone": {
   "name": "Acme Universal Safezone",
-  "site": null
+  "site": null,
+  "file": "logos/auto/acmeuniversalsafezone.png",
+  "url": "https://www.gmpipowatch.in/uploads/ipos/acme-universal.png",
+  "src": "ipo-page"
  },
  "pindhospitality": {
   "name": "Pind Hospitality",
