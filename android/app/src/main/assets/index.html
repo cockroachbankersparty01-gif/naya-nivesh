@@ -121,6 +121,27 @@ button.ghost{background:transparent;color:var(--teal);border-color:var(--rule)}
 .reg a{display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:14px;border:1px solid var(--rule);background:var(--card);text-decoration:none;color:var(--ink);box-shadow:var(--sh)}
 .reg a b{color:var(--teal)}.reg a:hover{border-color:var(--teal)}
 .st-Allotted{background:var(--upbg);color:var(--up)}.st-Notallotted{background:var(--dnbg);color:var(--dn)}.st-Applied,.st-Mandateaccepted{background:var(--ambbg);color:var(--amb)}.st-Refundreceived{background:var(--panel);color:var(--mut)}
+.grid{gap:22px}
+.card.ipo{padding:0;gap:0;overflow:hidden;cursor:pointer;border:1px solid var(--rule);box-shadow:0 2px 6px rgba(10,30,50,.08),0 14px 34px rgba(10,30,50,.10)}
+.card.ipo:hover,.card.ipo:focus-visible{transform:translateY(-2px);border-color:var(--teal)}
+.chead{display:flex;gap:12px;align-items:center;padding:14px 14px 14px 16px;color:#fff}
+.chead.Mainboard{background:linear-gradient(120deg,#0b4f5c,#0d6f73 55%,#108a7a)}.chead.SME{background:linear-gradient(120deg,#5a3a0c,#8a5a12 55%,#a9761c)}
+.chead h3{color:#fff;margin:2px 0 0;font-size:18px}.chead .csec{font-size:13px;color:rgba(255,255,255,.8)}.chead .cno{font-size:11.5px;font-weight:600;color:rgba(255,255,255,.75);letter-spacing:.02em}
+.chead .av{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3)}
+.ibtn{flex:none;width:44px;height:44px;min-height:44px;padding:0;border-radius:50%;background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.55);color:#fff;font:700 19px/1 Georgia,serif;font-style:italic}
+.ibtn:hover{background:rgba(255,255,255,.28)}
+.cbody{padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.cverdict{border-top:1px dashed var(--rule);padding-top:12px}
+.cfoot{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--panel);border-top:1px solid var(--rule);font-weight:600;color:var(--teal);font-size:15px}
+.sheet{position:fixed;inset:0;z-index:60}
+.sheet-bg{position:absolute;inset:0;background:rgba(5,12,20,.55);opacity:0;transition:opacity .2s}
+.sheet-panel{position:absolute;left:0;right:0;bottom:0;max-height:90vh;overflow:auto;background:var(--card);border-radius:22px 22px 0 0;padding:10px 18px calc(24px + env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .22s ease-out;box-shadow:0 -10px 40px rgba(0,0,0,.25)}
+.sheet.on .sheet-bg{opacity:1}.sheet.on .sheet-panel{transform:none}
+.grab{width:44px;height:5px;border-radius:9px;background:var(--rule);margin:2px auto 12px}
+.sheet .x{position:absolute;top:14px;right:14px;width:40px;height:40px;min-height:40px;padding:0;border-radius:50%;background:var(--panel);color:var(--ink);border:1px solid var(--rule);font-size:22px;line-height:1}
+.sheet .sh{margin:18px 0 8px;font-size:17px}
+.sheet p{margin:0;font-size:15.5px}
+@media(min-width:760px){.sheet-panel{left:50%;width:720px;margin-left:-360px;bottom:4vh;border-radius:22px;max-height:88vh}}
 .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:600;margin-bottom:12px;min-height:44px}
 .foot{padding:18px max(4vw,16px) 30px;font-size:13px;color:var(--mut)}
 pre,.scroll{overflow-x:auto}code{overflow-wrap:anywhere}
@@ -157,6 +178,7 @@ body.compact .hero{padding-block:14px}body.compact .hero h1,body.compact .hero p
 <main><div class="wrap" id="view"></div></main>
 <footer class="foot"><div class="wrap">Naya Nivesh · Educational tool, not investment advice; not a SEBI-registered adviser. GMP is an unofficial, unregulated grey-market quote. Always read the RHP before applying.</div></footer>
 <div class="toast" id="toast"></div>
+<div class="sheet" id="sheet" hidden><div class="sheet-bg" data-close></div><div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title"><div class="grab" aria-hidden="true"></div><button class="x" data-close aria-label="Close">×</button><div id="sheet-body"></div></div></div>
 
 <script id="seed" type="application/json">
 {"version":"2026-11-24a","asOf":"24 Nov 2026, 01:00 IST",
@@ -365,21 +387,62 @@ function spark(i){
 }
 const bars=(rows,max,fmt)=>'<div class="bars">'+rows.map(r=>'<div class="bar"><span>'+esc(r.l)+'</span><span class="t"><i class="'+(r.me?'me':'')+'" style="width:'+Math.max(1,Math.min(100,(r.v||0)/max*100))+'%"></i></span><b>'+fmt(r.v)+'</b></div>').join('')+'</div>';
 
-function card(i){
+function card(i,n){
   const S=score(i),[stt,sc]=stage(i),g=lastG(i),gp=g?g.v/hi(i)*100:null;
   const cd=countdown(i);
-  return '<a class="card" href="#ipo-'+esc(i.id)+'"><div class="row" style="flex-wrap:nowrap"><span class="av '+esc(i.seg)+'">'+esc(initials(i.name))+'</span><div style="flex:1"><h3 style="margin:0">'+esc(i.name)+'</h3><div class="sub">'+esc(i.sector)+'</div></div></div>'+
-  '<div class="row"><span class="pill st-'+sc+'">'+esc(stt)+'</span><span class="chip t">'+esc(i.seg)+' · '+esc(i.exch)+'</span>'+(cd?'<span class="chip">'+esc(cd)+'</span>':'')+'</div>'+
+  return '<article class="card ipo" data-href="#ipo-'+esc(i.id)+'" tabindex="0" role="link" aria-label="'+esc(i.name)+' IPO analysis">'+
+  '<header class="chead '+esc(i.seg)+'"><span class="av '+esc(i.seg)+'">'+esc(initials(i.name))+'</span><div style="flex:1"><div class="cno">'+esc(i.seg)+' IPO'+(n?' · '+n:'')+'</div><h3>'+esc(i.name)+'</h3><div class="csec">'+esc(i.sector||'Sector awaited')+'</div></div>'+
+  '<button class="ibtn" data-info="'+esc(i.id)+'" aria-label="About '+esc(i.name)+'" title="About the company">i</button></header>'+
+  '<div class="cbody"><div class="row"><span class="pill st-'+sc+'">'+esc(stt)+'</span><span class="chip">'+esc(i.exch)+'</span>'+(cd?'<span class="chip">'+esc(cd)+'</span>':'')+'</div>'+
   '<div class="kv kv2"><div><span>Price band</span><b>'+rs(i.band[0],0)+'–'+num(i.band[1],0)+'</b></div><div><span>Latest GMP</span><b class="'+cls(gp)+'">'+(g?rs(g.v)+' · '+pc(gp):'—')+'</b></div><div><span>Subscribed</span><b>'+(i.sub?xx(i.sub.total):'Not yet')+'</b></div><div><span>Min. application</span><b>'+(i.minShares?rs(i.minShares*hi(i),0):'—')+'</b></div></div>'+
   (i.gmp&&i.gmp.length>1?'<div><div class="note">GMP trend</div><div style="color:'+(S.tr<0?'var(--dn)':'var(--up)')+'">'+spark(i)+'</div></div>':'')+
-  '<div style="border-top:1px solid var(--rule);padding-top:12px">'+badge(S)+'<div class="row sp" style="margin-top:8px;flex-wrap:nowrap"><div class="note" style="flex:1">'+esc(S.why||'Tap for the full analysis →')+'</div><div class="gauges">'+ring(S.L,'Listing')+ring(S.T,'Long term')+'</div></div></div></a>';
+  '<div class="cverdict">'+badge(S)+'<div class="row sp" style="flex-wrap:nowrap;margin-top:8px"><div class="note" style="flex:1">'+esc(S.why||'Scores out of 100')+'</div><div class="gauges">'+ring(S.L,'Listing')+ring(S.T,'Long term')+'</div></div></div></div>'+
+  '<footer class="cfoot"><span>Full analysis</span><span aria-hidden="true">→</span></footer></article>';
 }
+
+/* ---------- company info sheet ---------- */
+function infoHtml(i){
+  const S=score(i),F=(i.fin||[]).filter(r=>/^FY\d+$/.test(r.y)),R=F.filter(r=>r.rev!=null),P=F.filter(r=>r.pat!=null),L=F.at(-1)||{};
+  const a=[];
+  if(R.length>1)a.push('Revenue moved from '+rs(R[0].rev,0)+' Cr in '+R[0].y+' to '+rs(R.at(-1).rev,0)+' Cr in '+R.at(-1).y+(S.fs.rc!=null?', '+(S.fs.rc>=15?'strong':S.fs.rc>=5?'steady':S.fs.rc>=0?'slow':'declining')+' growth of '+pc(S.fs.rc)+' a year':'')+'.');
+  if(P.length>1)a.push('Net profit went from '+rs(P[0].pat,0)+' Cr to '+rs(P.at(-1).pat,0)+' Cr'+(S.fs.pcg!=null?' ('+pc(S.fs.pcg)+' a year)':'')+(S.fs.neg?', with a loss in at least one year':'')+'.');
+  if(S.fs.pm!=null||i.ronw!=null)a.push('Profitability: net margin '+(S.fs.pm!=null?num(S.fs.pm,1)+'%':'n/a')+', return on net worth '+(i.ronw!=null?num(i.ronw,1)+'%':'n/a')+(i.ronw!=null?(i.ronw>=20?' — high':i.ronw>=12?' — reasonable':' — low')+' for an IPO candidate':'')+'.');
+  if(i.de!=null)a.push('Balance sheet: debt is '+num(i.de)+'x equity, '+(i.de<=0.5?'comfortable':i.de<=1.5?'moderate':'high; interest costs can squeeze profits')+'.');
+  if(i.pe&&S.med)a.push('Valuation: '+num(i.pe)+'x earnings versus a peer median of '+num(S.med)+'x, a '+(i.pe>S.med?num((i.pe/S.med-1)*100,0)+'% premium':num((1-i.pe/S.med)*100,0)+'% discount')+'.');
+  else if(i.pe)a.push('Valuation: '+num(i.pe)+'x earnings; no listed peer captured for comparison.');
+  if(i.issueCr)a.push('The issue raises '+rs(i.issueCr)+' Cr, of which '+(i.freshCr?rs(i.freshCr)+' Cr is fresh money for the company':'none goes to the company (100% sale by existing holders)')+'.');
+  if(i.sub)a.push('Demand: subscribed '+xx(i.sub.total)+(i.sub.qib!=null?', institutions '+xx(i.sub.qib):'')+(i.sub.rii!=null?', retail '+xx(i.sub.rii):'')+'.');
+  const g=lastG(i);if(g)a.push('Grey market: GMP '+rs(g.v)+' ('+pc(g.v/hi(i)*100)+')'+(S.tr!=null?(S.tr<-3?', falling':S.tr>3?', rising':', steady'):'')+'.');
+  const rows=[{n:i.name,pe:i.pe,ronw:i.ronw,rev:L.rev,me:1},...(i.peers||[])];
+  const peR=rows.filter(p=>p.pe>0).sort((x,y)=>x.pe-y.pe),roR=rows.filter(p=>p.ronw!=null).sort((x,y)=>y.ronw-x.ronw);
+  const rk=(arr)=>{const k=arr.findIndex(p=>p.me);return k<0?null:(k+1)+' of '+arr.length};
+  let h='<div class="row" style="flex-wrap:nowrap;align-items:flex-start;gap:12px;padding-right:44px"><span class="av '+esc(i.seg)+'" style="width:52px;height:52px;font-size:19px">'+esc(initials(i.name))+'</span><div><h2 id="sheet-title" style="margin:0">'+esc(i.name)+'</h2><div class="row" style="gap:6px;margin-top:6px"><span class="chip t">'+esc(i.seg)+'</span><span class="chip">'+esc(i.exch)+'</span>'+(i.sector?'<span class="chip">'+esc(i.sector)+'</span>':'')+'</div></div></div>';
+  h+='<h3 class="sh">What the company does</h3><p>'+esc(i.about||'The company has not published a business summary yet. Details will appear once the RHP is out.')+'</p>';
+  if((i.objects||[]).length)h+='<h3 class="sh">Why it is raising money</h3><ul class="flags">'+i.objects.map(o=>'<li>'+esc(o)+'</li>').join('')+'</ul>';
+  h+='<h3 class="sh">Business at a glance</h3><div class="kv">'+[['Latest revenue',L.rev!=null?rs(L.rev,0)+' Cr':'—'],['Latest profit',L.pat!=null?rs(L.pat,0)+' Cr':'—'],['Net margin',S.fs.pm!=null?num(S.fs.pm,1)+'%':'—'],['RoNW',i.ronw!=null?num(i.ronw,1)+'%':'—'],['Debt / equity',i.de!=null?num(i.de)+'x':'—'],['Market cap',i.mcapCr?rs(i.mcapCr,0)+' Cr':'—']].map(k=>'<div><span>'+k[0]+'</span><b>'+esc(k[1])+'</b></div>').join('')+'</div>';
+  h+='<h3 class="sh">Detailed analysis</h3>'+(a.length?'<ul class="flags">'+a.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p class="note">Financial data not yet available.</p>');
+  h+='<div class="two" style="margin-top:6px"><div><h3 class="sh">Strengths</h3><ul class="flags good">'+((i.strengths||[]).length?i.strengths.map(o=>'<li>'+esc(o)+'</li>').join(''):'<li class="note">Not captured yet</li>')+'</ul></div><div><h3 class="sh">Risks and red flags</h3><ul class="flags bad">'+[...(i.risks||[]),...S.flags.map(f=>f[0])].filter((x,k,arr)=>arr.indexOf(x)===k).map(o=>'<li>'+esc(o)+'</li>').join('')+'</ul></div></div>';
+  h+='<h3 class="sh">Peer comparison</h3>';
+  if((i.peers||[]).length){
+    h+='<div class="scroll"><table><thead><tr><th>Company</th><th class="n">P/E</th><th class="n">RoNW %</th><th class="n">Revenue ₹ Cr</th></tr></thead><tbody>'+rows.map(p=>'<tr class="'+(p.me?'me':'')+'"><td>'+esc(p.n)+(p.me?' (IPO)':'')+'</td><td class="n">'+(p.pe?num(p.pe)+'x':'n.m.')+'</td><td class="n">'+num(p.ronw,1)+'</td><td class="n">'+num(p.rev,0)+'</td></tr>').join('')+'</tbody></table></div>';
+    h+='<div style="margin-top:12px">'+bars(rows.filter(p=>p.pe).map(p=>({l:p.n,v:p.pe,me:p.me})),Math.max(...rows.map(p=>p.pe||0)),v=>num(v,1)+'x')+'</div>';
+    h+='<p class="note">'+[rk(peR)&&'Cheapness rank on P/E: '+rk(peR)+' (1 = cheapest).',rk(roR)&&'Return on net worth rank: '+rk(roR)+' (1 = highest).'].filter(Boolean).join(' ')+'</p>';
+  } else h+='<p class="note">No listed peers captured yet.</p>';
+  h+='<div class="verdict '+S.tone+'" style="margin-top:16px"><div class="gauges">'+ring(S.L,'Listing')+ring(S.T,'Long term')+'</div><div><div class="note">Our call</div><div class="vt" style="font-size:20px">'+esc(S.v)+'</div></div></div>';
+  h+='<a class="btn" style="margin-top:14px;width:100%" href="#ipo-'+esc(i.id)+'" data-close>Open full analysis →</a>';
+  return h;
+}
+let sheetLast=null;
+function openInfo(id){const i=DB.ipos.find(x=>x.id===id);if(!i)return;sheetLast=document.activeElement;const s=document.getElementById('sheet');document.getElementById('sheet-body').innerHTML=infoHtml(i);s.hidden=false;document.body.style.overflow='hidden';requestAnimationFrame(()=>s.classList.add('on'));const x=s.querySelector('.x');if(x)x.focus()}
+function closeInfo(){const s=document.getElementById('sheet');if(s.hidden)return;s.classList.remove('on');document.body.style.overflow='';setTimeout(()=>{s.hidden=true},200);if(sheetLast&&sheetLast.focus)sheetLast.focus()}
+document.getElementById('sheet').addEventListener('click',e=>{if(e.target.closest('[data-close]'))closeInfo()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeInfo()});
 
 function gridHtml(){
   const f=viewList.f||'All',q=(viewList.q||'').toLowerCase().trim();
   const items=DB.ipos.filter(i=>(f==='All'||i.seg===f)&&(!q||(i.name+' '+i.sector).toLowerCase().includes(q)));
   const order={open:0,closed:1,up:2,listed:3};items.sort((a,b)=>order[stage(a)[2]]-order[stage(b)[2]]);
-  return items.length?items.map(card).join(''):'<div class="empty card" style="grid-column:1/-1">No IPOs match. Try another name or filter.</div>';
+  return items.length?items.map((x,k)=>card(x,(k+1)+' of '+items.length)).join(''):'<div class="empty card" style="grid-column:1/-1">No IPOs match. Try another name or filter.</div>';
 }
 function viewList(){
   const segs=['All','Mainboard','SME'];const f=viewList.f||'All';
@@ -413,7 +476,7 @@ function viewIpo(id){
   const cd=countdown(i);
   let h='<a class="back" href="#ipos">← All IPOs</a><div class="dhero"><div class="row" style="flex-wrap:nowrap;align-items:flex-start"><span class="av '+esc(i.seg)+'" style="width:56px;height:56px;font-size:20px">'+esc(initials(i.name))+'</span><div><h1 style="font-size:clamp(26px,4vw,40px)">'+esc(i.name)+' IPO</h1>'+
   '<div class="row" style="gap:6px;margin-top:8px"><span class="pill st-'+sc+'">'+esc(stt)+'</span>'+(cd?'<span class="chip">'+esc(cd)+'</span>':'')+'<span class="chip t">'+esc(i.seg)+'</span><span class="chip">'+esc(i.exch)+'</span><span class="chip">'+esc(i.sector)+'</span></div></div></div>'+
-  '<p class="sub" style="margin:12px 0 10px">'+esc(i.about||'')+'</p><div class="row" style="margin-bottom:14px">'+(regOf(i)?ext(regOf(i)[1],'Check allotment on '+esc(regOf(i)[0].split(' (')[0])):'')+ext(EXCH[0][1],'Check on BSE','btn ghost')+'<a class="btn ghost" href="#allotment">Track my application</a></div>';
+  '<p class="sub" style="margin:12px 0 10px">'+esc(i.about||'')+'</p><div class="row" style="margin-bottom:14px">'+(regOf(i)?ext(regOf(i)[1],'Check allotment on '+esc(regOf(i)[0].split(' (')[0])):'')+ext(EXCH[0][1],'Check on BSE','btn ghost')+'<a class="btn ghost" href="#allotment">Track my application</a><button class="btn ghost" data-info="'+esc(i.id)+'">ⓘ Company profile</button></div>';
   h+='<div class="verdict '+S.tone+'"><div class="gauges">'+ring(S.L,'Listing')+ring(S.T,'Long term')+'</div><div><div class="note">Our call</div><div class="vt">'+esc(S.v)+'</div>'+(S.why?'<p class="note" style="margin:4px 0">'+esc(S.why)+'</p>':'')+
   '<ul class="flags">'+reasons(i,S).map(r=>'<li>'+esc(r)+'</li>').join('')+'</ul>'+(allotAdvice(i,S)?'<div class="panel" style="margin-top:8px;padding:12px">'+allotAdvice(i,S)+'</div>':'')+'</div></div>';
   h+='<div class="kv" style="margin-top:14px">'+[
@@ -553,6 +616,8 @@ function render(){
 window.addEventListener('hashchange',()=>{render();window.scrollTo(0,0)});
 const fnum=v=>v===''||v==null?null:+v;
 V.addEventListener('click',async e=>{
+  const ib=e.target.closest('[data-info]');if(ib){e.preventDefault();e.stopPropagation();openInfo(ib.dataset.info);return}
+  const cd=e.target.closest('.card.ipo');if(cd&&!e.target.closest('a,button,select,input')){location.hash=cd.dataset.href;return}
   const j=e.target.closest('[data-jump]');if(j){e.preventDefault();const t=document.getElementById(j.dataset.jump);if(t)t.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});return}
   const b=e.target.closest('button');if(!b)return;
   if(b.closest('#segf')){viewList.f=b.dataset.f;render()}
@@ -560,6 +625,7 @@ V.addEventListener('click',async e=>{
   else if(b.id==='aibtn')aiRun(b);
   else if(b.dataset.del!=null){DB.apps.splice(+b.dataset.del,1);save();render()}
 });
+V.addEventListener('keydown',e=>{const cd=e.target.closest&&e.target.closest('.card.ipo');if(cd&&e.target===cd&&(e.key==='Enter'||e.key===' ')){e.preventDefault();location.hash=cd.dataset.href}});
 V.addEventListener('input',e=>{if(e.target.id==='q'){viewList.q=e.target.value;document.getElementById('grid').innerHTML=gridHtml()}});
 V.addEventListener('change',e=>{if(e.target.dataset.app!=null){DB.apps[+e.target.dataset.app].status=e.target.value;save();render();toast('Status updated')}});
 V.addEventListener('submit',e=>{
@@ -634,6 +700,8 @@ async function gpDetail(slug){
   const fr=lval(text,'Fresh Issue');if(fr&&/cr/i.test(fr))d.freshCr=pnum(fr);
   for(const[k,labs]of[['open',['IPO Open Date','Open Date']],['close',['IPO Close Date','Close Date']],['allot',['Basis of Allotment','Allotment Date']],['refund',['Initiation of Refunds','Refund']],['list',['Listing Date']]]){const v=pdate(lval(text,...labs));if(v)(d.dates=d.dates||{})[k]=v}
   const reg=lval(text,'Registrar');if(reg){const R=REGS.find(r=>reg.toLowerCase().includes(r.split(' ')[0].toLowerCase()));if(R)d.registrar=R}
+  for(const hd of doc.querySelectorAll('h2,h3,h4')){if(!/about/i.test(hd.textContent))continue;let el=hd.nextElementSibling,t='';while(el&&!/^H[1-4]$/.test(el.tagName)&&t.length<900){t+=' '+el.textContent;el=el.nextElementSibling}t=t.replace(/\s+/g,' ').trim();if(t.length>60){d.about=t.length>900?t.slice(0,t.lastIndexOf('.',900)+1||900):t;break}}
+  const sec=lval(text,'Industry','Sector');if(sec&&sec.length<60)d.sector=sec;
   const lo=text.match(/Listing (?:Open|Price|Day Open)[^\n₹]{0,40}₹\s*([\d,]+(?:\.\d+)?)/i);if(lo)d.listOpen=pnum(lo[1]);
   for(const{h,rows}of tablesOf(doc)){
     if(colIx(h,['date'])!=null&&colIx(h,['gmp'])!=null&&colIx(h,['category'])==null){const di=colIx(h,['date']),gi=colIx(h,['gmp'],['%']);if(gi==null)continue;const pts=[];for(const r of rows){const dd=pdate(r[di]),gv=pnum(r[gi]);if(dd&&gv!=null&&Math.abs(gv)<1e5)pts.push({d:dd,v:gv})}if(pts.length)d.gmp=pts}
@@ -668,6 +736,7 @@ function applyDetail(ipo,d){
   for(const k of['band','lot','issueCr','freshCr','registrar','pe','eps','nav','ronw','roce','de','ebitdaM','patM','mcapCr'])if(d[k]!=null)ipo[k]=d[k];
   if(d.issueCr!=null&&d.freshCr!=null)ipo.ofsCr=Math.max(0,+(d.issueCr-d.freshCr).toFixed(2));
   if(d.dates)ipo.dates=Object.assign(ipo.dates||{},d.dates);
+  if(d.about&&!ipo.about)ipo.about=d.about;if(d.sector&&!ipo.sector)ipo.sector=d.sector;
   if(d.peers&&!(ipo.peers||[]).length)ipo.peers=d.peers;
   if(d.fin){const rows={};for(const r of ipo.fin||[])rows[r.y]=r;for(const r of d.fin){const c=rows[r.y]=rows[r.y]||{y:r.y};for(const k in r)if(c[k]==null&&r[k]!=null)c[k]=r[k]}ipo.fin=Object.values(rows).sort((x,y)=>(x.y.startsWith('FY')?0:1)-(y.y.startsWith('FY')?0:1)||(x.y<y.y?-1:1))}
   if(d.sub){const o=ipo.sub||{},s=Object.assign({emp:o.emp??null,sh:o.sh??null},d.sub);s.asOf=t;const cl=(ipo.dates||{}).close;s.final=!!(cl&&t>cl);s.days=(o.days||[]).filter(x=>x.d!==t);s.days.push({d:t,total:s.total,qib:s.qib,nii:s.nii,rii:s.rii});s.days.sort((a,b)=>a.d<b.d?-1:1);s.days=s.days.slice(-10);ipo.sub=s}
